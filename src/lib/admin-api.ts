@@ -1,4 +1,16 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const REVALIDATE_SECRET = process.env.NEXT_PUBLIC_REVALIDATE_SECRET || "dulichvietnam-revalidate-2026";
+
+async function revalidateFrontend() {
+  try {
+    await fetch("/api/revalidate", {
+      method: "POST",
+      headers: { "x-revalidate-secret": REVALIDATE_SECRET },
+    });
+  } catch {
+    // Ignore revalidation errors
+  }
+}
 
 function getToken(): string {
   return localStorage.getItem("admin_token") || "";
@@ -35,7 +47,9 @@ export async function createProvince(data: Record<string, unknown>) {
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  return handleResponse(res);
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
 }
 
 export async function updateProvince(
@@ -47,7 +61,9 @@ export async function updateProvince(
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  return handleResponse(res);
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
 }
 
 export async function deleteProvince(slug: string) {
@@ -55,7 +71,9 @@ export async function deleteProvince(slug: string) {
     method: "DELETE",
     headers: authHeaders(),
   });
-  return handleResponse(res);
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
 }
 
 // --- Destinations ---
@@ -76,7 +94,9 @@ export async function createDestination(data: Record<string, unknown>) {
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  return handleResponse(res);
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
 }
 
 export async function updateDestination(
@@ -88,7 +108,9 @@ export async function updateDestination(
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  return handleResponse(res);
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
 }
 
 export async function deleteDestination(slug: string) {
@@ -96,7 +118,9 @@ export async function deleteDestination(slug: string) {
     method: "DELETE",
     headers: authHeaders(),
   });
-  return handleResponse(res);
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
 }
 
 // --- Site Config ---
@@ -112,7 +136,9 @@ export async function updateSiteConfig(data: Record<string, unknown>) {
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  return handleResponse(res);
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
 }
 
 // --- Upload ---
