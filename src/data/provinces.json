@@ -1,0 +1,71 @@
+[
+  {
+    "id": "ha-noi",
+    "slug": "ha-noi",
+    "name": "Hà Nội",
+    "nameVi": "Hà Nội",
+    "region": "mien-bac",
+    "description": "Thủ đô nghìn năm văn hiến, nơi giao thoa giữa nét cổ kính và nhịp sống hiện đại.",
+    "longDescription": "Hà Nội – thủ đô của Việt Nam, là thành phố có lịch sử hơn 1000 năm. Nơi đây nổi tiếng với những con phố cổ, đền chùa cổ kính, hồ nước thanh bình và ẩm thực đường phố phong phú. Từ Hồ Gươm thanh bình đến Hoàng Thành Thăng Long hùng vĩ, Hà Nội luôn để lại ấn tượng sâu đậm trong lòng du khách.",
+    "heroImage": "/images/provinces/ha-noi/hero.jpg",
+    "thumbnail": "/images/provinces/ha-noi/thumbnail.jpg",
+    "population": "8,4 triệu người",
+    "area": "3.358,6 km²",
+    "bestTimeToVisit": "Tháng 9 – Tháng 11 (mùa thu)",
+    "highlights": [
+      "Phố cổ Hà Nội",
+      "Ẩm thực đường phố",
+      "Đền chùa cổ kính",
+      "Hồ Gươm và Tháp Rùa"
+    ],
+    "destinationSlugs": ["ho-guom", "hoang-thanh-thang-long", "pho-co-ha-noi"],
+    "featured": true,
+    "order": 1
+  },
+  {
+    "id": "da-nang",
+    "slug": "da-nang",
+    "name": "Đà Nẵng",
+    "nameVi": "Đà Nẵng",
+    "region": "mien-trung",
+    "description": "Thành phố đáng sống nhất Việt Nam với bãi biển tuyệt đẹp và Cầu Vàng nổi tiếng thế giới.",
+    "longDescription": "Đà Nẵng là thành phố trực thuộc trung ương nằm ở vùng duyên hải miền Trung Việt Nam. Nơi đây nổi tiếng với những bãi biển cát trắng trải dài, Ngũ Hành Sơn huyền bí và Cầu Vàng – công trình độc đáo đã trở thành biểu tượng du lịch của Việt Nam trên bản đồ thế giới. Đà Nẵng còn là cửa ngõ để khám phá phố cổ Hội An và cố đô Huế.",
+    "heroImage": "/images/provinces/da-nang/hero.jpg",
+    "thumbnail": "/images/provinces/da-nang/thumbnail.jpg",
+    "population": "1,2 triệu người",
+    "area": "1.284,9 km²",
+    "bestTimeToVisit": "Tháng 2 – Tháng 5",
+    "highlights": [
+      "Cầu Vàng Bà Nà Hills",
+      "Bãi biển Mỹ Khê",
+      "Ngũ Hành Sơn",
+      "Ẩm thực miền Trung"
+    ],
+    "destinationSlugs": ["cau-vang-ba-na", "bai-bien-my-khe", "ngu-hanh-son"],
+    "featured": true,
+    "order": 2
+  },
+  {
+    "id": "ho-chi-minh",
+    "slug": "ho-chi-minh",
+    "name": "TP. Hồ Chí Minh",
+    "nameVi": "Thành phố Hồ Chí Minh",
+    "region": "mien-nam",
+    "description": "Thành phố năng động nhất Việt Nam, trung tâm kinh tế và giải trí của cả nước.",
+    "longDescription": "Thành phố Hồ Chí Minh (Sài Gòn) là thành phố lớn nhất Việt Nam, nổi tiếng với nhịp sống sôi động, kiến trúc Pháp cổ điển pha trộn với những toà nhà chọc trời hiện đại. Từ Nhà thờ Đức Bà đến chợ Bến Thành, từ Địa đạo Củ Chi lịch sử đến những quán café sân thượng, Sài Gòn mang đến trải nghiệm đa dạng và phong phú cho mọi du khách.",
+    "heroImage": "/images/provinces/ho-chi-minh/hero.jpg",
+    "thumbnail": "/images/provinces/ho-chi-minh/thumbnail.jpg",
+    "population": "9,3 triệu người",
+    "area": "2.061,2 km²",
+    "bestTimeToVisit": "Tháng 12 – Tháng 4 (mùa khô)",
+    "highlights": [
+      "Nhà thờ Đức Bà",
+      "Chợ Bến Thành",
+      "Địa đạo Củ Chi",
+      "Ẩm thực Sài Gòn"
+    ],
+    "destinationSlugs": ["nha-tho-duc-ba", "cho-ben-thanh", "dia-dao-cu-chi"],
+    "featured": true,
+    "order": 3
+  }
+]

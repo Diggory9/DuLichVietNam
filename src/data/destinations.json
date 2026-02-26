@@ -1,0 +1,246 @@
+[
+  {
+    "id": "ho-guom",
+    "slug": "ho-guom",
+    "name": "Hồ Gươm",
+    "nameVi": "Hồ Gươm (Hồ Hoàn Kiếm)",
+    "provinceSlug": "ha-noi",
+    "category": "thien-nhien",
+    "description": "Trái tim của thủ đô Hà Nội, nơi lưu giữ truyền thuyết về vua Lê Thái Tổ trả kiếm thần.",
+    "longDescription": "Hồ Gươm hay còn gọi là Hồ Hoàn Kiếm là hồ nước ngọt tự nhiên nằm giữa trung tâm thành phố Hà Nội. Hồ là biểu tượng của thủ đô với Tháp Rùa cổ kính nằm trên gò đất nhỏ giữa hồ và cầu Thê Húc sơn đỏ dẫn vào đền Ngọc Sơn. Mỗi buổi sáng, người dân Hà Nội tập thể dục quanh hồ, buổi tối thì không gian đi bộ trở nên sôi động với các hoạt động văn hoá nghệ thuật. Hồ Gươm không chỉ là thắng cảnh đẹp mà còn là nơi lưu giữ nhiều giá trị lịch sử và văn hoá của dân tộc Việt Nam.",
+    "images": [
+      { "src": "/images/destinations/ho-guom-1.jpg", "alt": "Hồ Gươm buổi sáng", "caption": "Toàn cảnh Hồ Gươm vào buổi sáng sớm" },
+      { "src": "/images/destinations/ho-guom-2.jpg", "alt": "Tháp Rùa Hồ Gươm", "caption": "Tháp Rùa – biểu tượng của Hồ Gươm" },
+      { "src": "/images/destinations/ho-guom-3.jpg", "alt": "Cầu Thê Húc", "caption": "Cầu Thê Húc dẫn vào đền Ngọc Sơn" }
+    ],
+    "tips": [
+      "Nên đến vào buổi sáng sớm hoặc chiều muộn để tránh nắng nóng",
+      "Cuối tuần có phố đi bộ quanh hồ với nhiều hoạt động vui chơi",
+      "Nên đi bộ một vòng quanh hồ để ngắm toàn cảnh (khoảng 1,5km)"
+    ],
+    "address": "Phố Đinh Tiên Hoàng, Quận Hoàn Kiếm, Hà Nội",
+    "coordinates": { "lat": 21.0285, "lng": 105.8542 },
+    "openingHours": "Luôn mở cửa (khu vực hồ). Đền Ngọc Sơn: 7:00 – 18:00",
+    "entryFee": "Miễn phí (khu vực hồ). Đền Ngọc Sơn: 30.000 VNĐ",
+    "bestTimeToVisit": "Sáng sớm hoặc chiều muộn",
+    "tags": ["hồ", "lịch-sử", "biểu-tượng", "phố-đi-bộ"],
+    "featured": true,
+    "order": 1
+  },
+  {
+    "id": "hoang-thanh-thang-long",
+    "slug": "hoang-thanh-thang-long",
+    "name": "Hoàng Thành Thăng Long",
+    "nameVi": "Hoàng Thành Thăng Long",
+    "provinceSlug": "ha-noi",
+    "category": "lich-su",
+    "description": "Di sản văn hoá thế giới UNESCO, chứng nhân cho lịch sử nghìn năm của kinh thành Hà Nội.",
+    "longDescription": "Hoàng Thành Thăng Long là di tích lịch sử quan trọng nhất của thủ đô Hà Nội, được UNESCO công nhận là Di sản Văn hoá Thế giới năm 2010. Khu di tích trải dài trên diện tích rộng lớn, lưu giữ các tầng văn hoá từ thời kỳ Đại La (thế kỷ 7) đến thời Nguyễn (thế kỷ 19). Nổi bật nhất là Cột Cờ Hà Nội, Đoan Môn, Điện Kính Thiên và khu khảo cổ 18 Hoàng Diệu. Đây là nơi mà nhiều triều đại phong kiến Việt Nam đã chọn làm kinh đô trong suốt hơn 1000 năm lịch sử.",
+    "images": [
+      { "src": "/images/destinations/hoang-thanh-1.jpg", "alt": "Cột Cờ Hà Nội", "caption": "Cột Cờ Hà Nội – biểu tượng của Hoàng Thành" },
+      { "src": "/images/destinations/hoang-thanh-2.jpg", "alt": "Đoan Môn", "caption": "Cổng Đoan Môn – cổng chính vào Hoàng Thành" }
+    ],
+    "tips": [
+      "Nên thuê hướng dẫn viên để hiểu rõ lịch sử",
+      "Mang theo nước uống và mũ nắng vì khu vực rộng",
+      "Nên dành ít nhất 2 giờ để tham quan"
+    ],
+    "address": "19C Hoàng Diệu, Quận Ba Đình, Hà Nội",
+    "coordinates": { "lat": 21.0340, "lng": 105.8400 },
+    "openingHours": "8:00 – 17:00 (Thứ 2 – Chủ nhật)",
+    "entryFee": "30.000 VNĐ",
+    "bestTimeToVisit": "Sáng sớm",
+    "tags": ["di-sản-unesco", "lịch-sử", "kiến-trúc", "bảo-tàng"],
+    "featured": false,
+    "order": 2
+  },
+  {
+    "id": "pho-co-ha-noi",
+    "slug": "pho-co-ha-noi",
+    "name": "Phố Cổ Hà Nội",
+    "nameVi": "Phố Cổ Hà Nội (36 Phố Phường)",
+    "provinceSlug": "ha-noi",
+    "category": "van-hoa",
+    "description": "Khu phố cổ với 36 phố phường, nơi lưu giữ nét văn hoá truyền thống của người Hà Nội.",
+    "longDescription": "Phố Cổ Hà Nội, hay còn gọi là khu 36 phố phường, là khu vực lịch sử nằm ở trung tâm Hà Nội. Mỗi con phố mang tên một nghề thủ công truyền thống như Hàng Bạc (bạc), Hàng Đào (vải), Hàng Mã (hàng mã). Nơi đây là sự hoà quyện giữa kiến trúc cổ và cuộc sống hiện đại, với những ngôi nhà ống đặc trưng, đền chùa linh thiêng và ẩm thực đường phố vô cùng phong phú. Đi dạo qua các con phố nhỏ hẹp, du khách sẽ cảm nhận được nhịp sống chân thực nhất của người Hà Nội.",
+    "images": [
+      { "src": "/images/destinations/pho-co-1.jpg", "alt": "Phố Cổ Hà Nội buổi tối", "caption": "Không gian phố cổ về đêm" },
+      { "src": "/images/destinations/pho-co-2.jpg", "alt": "Hàng Mã", "caption": "Phố Hàng Mã rực rỡ sắc màu" }
+    ],
+    "tips": [
+      "Nên đi bộ để cảm nhận hết vẻ đẹp của phố cổ",
+      "Thử bún chả, phở, cà phê trứng – đặc sản Hà Nội",
+      "Chiều cuối tuần có phố đi bộ Hàng Ngang – Hàng Đào"
+    ],
+    "address": "Quận Hoàn Kiếm, Hà Nội",
+    "coordinates": { "lat": 21.0345, "lng": 105.8510 },
+    "openingHours": "Luôn mở cửa",
+    "entryFee": "Miễn phí",
+    "bestTimeToVisit": "Chiều và tối",
+    "tags": ["phố-cổ", "văn-hoá", "ẩm-thực", "mua-sắm"],
+    "featured": true,
+    "order": 3
+  },
+  {
+    "id": "cau-vang-ba-na",
+    "slug": "cau-vang-ba-na",
+    "name": "Cầu Vàng Bà Nà Hills",
+    "nameVi": "Cầu Vàng (Golden Bridge) – Bà Nà Hills",
+    "provinceSlug": "da-nang",
+    "category": "giai-tri",
+    "description": "Cây cầu vàng được nâng đỡ bởi đôi bàn tay khổng lồ, biểu tượng du lịch Việt Nam trên thế giới.",
+    "longDescription": "Cầu Vàng (Golden Bridge) nằm trong khu du lịch Bà Nà Hills, thành phố Đà Nẵng, là một trong những cây cầu nổi tiếng nhất thế giới. Cầu dài 150m, nâng đỡ bởi hai bàn tay đá khổng lồ, tạo nên khung cảnh kỳ vĩ giữa những tầng mây. Khu du lịch Bà Nà Hills còn có làng Pháp cổ, vườn hoa Le Jardin D'Amour, khu vui chơi Fantasy Park và hệ thống cáp treo đạt kỷ lục thế giới. Đây là điểm đến không thể bỏ qua khi đến Đà Nẵng.",
+    "images": [
+      { "src": "/images/destinations/cau-vang-1.jpg", "alt": "Cầu Vàng Bà Nà Hills", "caption": "Cầu Vàng – biểu tượng du lịch Đà Nẵng" },
+      { "src": "/images/destinations/cau-vang-2.jpg", "alt": "Bàn tay khổng lồ", "caption": "Đôi bàn tay đá nâng đỡ Cầu Vàng" }
+    ],
+    "tips": [
+      "Nên đi vào ngày trong tuần để tránh đông",
+      "Mang áo ấm vì trên núi trời lạnh",
+      "Mua vé trọn gói để trải nghiệm đầy đủ"
+    ],
+    "address": "Khu du lịch Bà Nà Hills, Hoà Ninh, Hoà Vang, Đà Nẵng",
+    "coordinates": { "lat": 15.9977, "lng": 107.9881 },
+    "openingHours": "7:00 – 22:00",
+    "entryFee": "900.000 VNĐ (người lớn), 750.000 VNĐ (trẻ em)",
+    "bestTimeToVisit": "Tháng 3 – Tháng 9",
+    "tags": ["cầu", "khu-du-lịch", "check-in", "núi"],
+    "featured": true,
+    "order": 1
+  },
+  {
+    "id": "bai-bien-my-khe",
+    "slug": "bai-bien-my-khe",
+    "name": "Bãi Biển Mỹ Khê",
+    "nameVi": "Bãi Biển Mỹ Khê",
+    "provinceSlug": "da-nang",
+    "category": "thien-nhien",
+    "description": "Một trong những bãi biển đẹp nhất hành tinh theo bình chọn của tạp chí Forbes.",
+    "longDescription": "Bãi biển Mỹ Khê dài hơn 900m với cát trắng mịn, nước biển trong xanh, được tạp chí Forbes bầu chọn là một trong 6 bãi biển quyến rũ nhất hành tinh. Nơi đây lý tưởng cho các hoạt động như tắm biển, lướt ván, chơi bóng chuyền bãi biển. Dọc bãi biển là hàng loạt resort, nhà hàng hải sản tươi ngon và quán cà phê view biển. Mỹ Khê là bãi biển gần trung tâm Đà Nẵng nhất, rất tiện lợi cho du khách.",
+    "images": [
+      { "src": "/images/destinations/my-khe-1.jpg", "alt": "Bãi biển Mỹ Khê", "caption": "Bãi biển Mỹ Khê với cát trắng trải dài" },
+      { "src": "/images/destinations/my-khe-2.jpg", "alt": "Hoàng hôn Mỹ Khê", "caption": "Hoàng hôn tuyệt đẹp tại Mỹ Khê" }
+    ],
+    "tips": [
+      "Thời điểm tắm biển tốt nhất: 5:00 – 7:00 sáng và 15:00 – 17:00 chiều",
+      "Có dịch vụ cho thuê dù, ghế bãi biển",
+      "Thử hải sản tươi tại các nhà hàng ven biển"
+    ],
+    "address": "Đường Võ Nguyên Giáp, Quận Sơn Trà, Đà Nẵng",
+    "coordinates": { "lat": 16.0583, "lng": 108.2452 },
+    "openingHours": "Luôn mở cửa",
+    "entryFee": "Miễn phí",
+    "bestTimeToVisit": "Tháng 5 – Tháng 8",
+    "tags": ["biển", "cát-trắng", "thể-thao", "nghỉ-dưỡng"],
+    "featured": false,
+    "order": 2
+  },
+  {
+    "id": "ngu-hanh-son",
+    "slug": "ngu-hanh-son",
+    "name": "Ngũ Hành Sơn",
+    "nameVi": "Ngũ Hành Sơn (Marble Mountains)",
+    "provinceSlug": "da-nang",
+    "category": "tam-linh",
+    "description": "Cụm 5 ngọn núi đá vôi huyền bí với nhiều chùa chiền, hang động và tích huyền thoại.",
+    "longDescription": "Ngũ Hành Sơn là cụm 5 ngọn núi đá vôi và đá cẩm thạch nằm ở quận Ngũ Hành Sơn, thành phố Đà Nẵng. Mỗi ngọn núi mang tên một nguyên tố: Kim, Mộc, Thuỷ, Hoả, Thổ. Nơi đây có nhiều chùa chiền cổ kính, hang động tự nhiên và những con đường mòn dẫn lên đỉnh núi ngắm toàn cảnh Đà Nẵng. Nổi bật nhất là động Huyền Không với những khối đá tự nhiên và ánh sáng xuyên qua trần động tạo nên khung cảnh thần bí. Dưới chân núi là làng nghề điêu khắc đá Non Nước nổi tiếng.",
+    "images": [
+      { "src": "/images/destinations/ngu-hanh-son-1.jpg", "alt": "Ngũ Hành Sơn", "caption": "Toàn cảnh Ngũ Hành Sơn từ trên cao" },
+      { "src": "/images/destinations/ngu-hanh-son-2.jpg", "alt": "Động Huyền Không", "caption": "Bên trong động Huyền Không" }
+    ],
+    "tips": [
+      "Mang giày thoải mái vì phải leo nhiều bậc thang",
+      "Nên đi từ sáng sớm để tránh nóng",
+      "Có thang máy lên núi Thuỷ Sơn cho người không muốn leo"
+    ],
+    "address": "Đường Huyền Trân Công Chúa, Quận Ngũ Hành Sơn, Đà Nẵng",
+    "coordinates": { "lat": 16.0040, "lng": 108.2633 },
+    "openingHours": "7:00 – 17:30",
+    "entryFee": "40.000 VNĐ",
+    "bestTimeToVisit": "Sáng sớm",
+    "tags": ["núi", "chùa", "hang-động", "tâm-linh"],
+    "featured": false,
+    "order": 3
+  },
+  {
+    "id": "nha-tho-duc-ba",
+    "slug": "nha-tho-duc-ba",
+    "name": "Nhà Thờ Đức Bà",
+    "nameVi": "Nhà Thờ Chính Toà Đức Bà Sài Gòn",
+    "provinceSlug": "ho-chi-minh",
+    "category": "lich-su",
+    "description": "Công trình kiến trúc Pháp tiêu biểu, biểu tượng của Thành phố Hồ Chí Minh từ năm 1880.",
+    "longDescription": "Nhà thờ Chính toà Đức Bà Sài Gòn (Basilique Notre-Dame de Saigon) được xây dựng từ năm 1877 đến 1880 bởi người Pháp. Nhà thờ mang phong cách kiến trúc Roman pha Gothic với hai tháp chuông cao 58m và mặt tiền xây bằng gạch đỏ mang từ Marseille, Pháp. Toạ lạc tại công trường Paris, nhà thờ là điểm đến không thể bỏ qua khi thăm TP. Hồ Chí Minh. Phía trước nhà thờ là tượng Đức Mẹ Hoà Bình và Bưu điện Thành phố – một công trình kiến trúc cổ đẹp khác.",
+    "images": [
+      { "src": "/images/destinations/nha-tho-duc-ba-1.jpg", "alt": "Nhà Thờ Đức Bà", "caption": "Nhà Thờ Đức Bà nhìn từ công trường Paris" },
+      { "src": "/images/destinations/nha-tho-duc-ba-2.jpg", "alt": "Mặt tiền nhà thờ", "caption": "Kiến trúc Roman – Gothic đặc trưng" }
+    ],
+    "tips": [
+      "Hiện đang trong giai đoạn trùng tu, nên ngắm từ bên ngoài",
+      "Kết hợp tham quan Bưu điện TP.HCM ngay bên cạnh",
+      "Nên đến vào buổi sáng để chụp ảnh đẹp"
+    ],
+    "address": "01 Công xã Paris, Quận 1, TP. Hồ Chí Minh",
+    "coordinates": { "lat": 10.7798, "lng": 106.6990 },
+    "openingHours": "8:00 – 17:00",
+    "entryFee": "Miễn phí",
+    "bestTimeToVisit": "Sáng sớm",
+    "tags": ["nhà-thờ", "kiến-trúc-pháp", "lịch-sử", "biểu-tượng"],
+    "featured": true,
+    "order": 1
+  },
+  {
+    "id": "cho-ben-thanh",
+    "slug": "cho-ben-thanh",
+    "name": "Chợ Bến Thành",
+    "nameVi": "Chợ Bến Thành",
+    "provinceSlug": "ho-chi-minh",
+    "category": "van-hoa",
+    "description": "Khu chợ lịch sử hơn 100 tuổi, trung tâm mua sắm và ẩm thực nổi tiếng nhất Sài Gòn.",
+    "longDescription": "Chợ Bến Thành là một trong những khu chợ lâu đời nhất tại TP. Hồ Chí Minh, được xây dựng từ đầu thế kỷ 20. Chợ nằm ngay trung tâm thành phố, là nơi tập trung hàng nghìn gian hàng bán đủ loại mặt hàng từ đồ lưu niệm, vải vóc, quầy ăn uống đến trái cây, thực phẩm. Ban đêm, khu chợ chuyển thành phố ẩm thực ngoài trời sôi động với hàng trăm món ăn địa phương. Chợ Bến Thành không chỉ là nơi mua sắm mà còn là biểu tượng văn hoá của Sài Gòn.",
+    "images": [
+      { "src": "/images/destinations/cho-ben-thanh-1.jpg", "alt": "Chợ Bến Thành", "caption": "Cổng chính chợ Bến Thành – biểu tượng của Sài Gòn" },
+      { "src": "/images/destinations/cho-ben-thanh-2.jpg", "alt": "Chợ đêm Bến Thành", "caption": "Phố ẩm thực chợ đêm Bến Thành" }
+    ],
+    "tips": [
+      "Nhớ trả giá khi mua hàng (thường giảm 30–50%)",
+      "Buổi tối có chợ đêm ẩm thực rất phong phú",
+      "Nên đến vào buổi sáng để tránh đông và nóng"
+    ],
+    "address": "Đường Lê Lợi, Quận 1, TP. Hồ Chí Minh",
+    "coordinates": { "lat": 10.7725, "lng": 106.6980 },
+    "openingHours": "6:00 – 18:00 (chợ ngày), 18:00 – 23:00 (chợ đêm)",
+    "entryFee": "Miễn phí",
+    "bestTimeToVisit": "Sáng sớm hoặc buổi tối (chợ đêm)",
+    "tags": ["chợ", "ẩm-thực", "mua-sắm", "văn-hoá"],
+    "featured": false,
+    "order": 2
+  },
+  {
+    "id": "dia-dao-cu-chi",
+    "slug": "dia-dao-cu-chi",
+    "name": "Địa Đạo Củ Chi",
+    "nameVi": "Địa Đạo Củ Chi",
+    "provinceSlug": "ho-chi-minh",
+    "category": "lich-su",
+    "description": "Hệ thống địa đạo dài 250km, chứng tích lịch sử của cuộc kháng chiến chống Mỹ.",
+    "longDescription": "Địa đạo Củ Chi là hệ thống đường hầm dưới lòng đất dài hơn 250km, được xây dựng từ thời kháng chiến chống Pháp và mở rộng trong thời kỳ kháng chiến chống Mỹ. Hệ thống địa đạo bao gồm nhiều tầng, có phòng họp, phòng ngủ, bệnh xá, nhà bếp và cả kho vũ khí. Ngày nay, Địa đạo Củ Chi đã trở thành điểm du lịch lịch sử nổi tiếng, nơi du khách có thể chui xuống các đoạn hầm đã được mở rộng, tham quan mô hình bẫy và tìm hiểu về cuộc sống của quân dân Việt Nam trong chiến tranh.",
+    "images": [
+      { "src": "/images/destinations/cu-chi-1.jpg", "alt": "Địa đạo Củ Chi", "caption": "Lối vào Địa đạo Củ Chi" },
+      { "src": "/images/destinations/cu-chi-2.jpg", "alt": "Bên trong địa đạo", "caption": "Bên trong hệ thống địa đạo" }
+    ],
+    "tips": [
+      "Nên đi theo tour để có hướng dẫn viên giải thích",
+      "Mặc quần áo thoải mái, dễ di lại trong hầm hẹp",
+      "Có 2 khu tham quan: Bến Đình và Bến Dược"
+    ],
+    "address": "Phú Hiệp, Củ Chi, TP. Hồ Chí Minh",
+    "coordinates": { "lat": 11.1417, "lng": 106.4635 },
+    "openingHours": "7:00 – 17:00",
+    "entryFee": "110.000 VNĐ (người lớn), 20.000 VNĐ (trẻ em)",
+    "bestTimeToVisit": "Sáng sớm",
+    "tags": ["lịch-sử", "chiến-tranh", "địa-đạo", "bảo-tàng"],
+    "featured": false,
+    "order": 3
+  }
+]

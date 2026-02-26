@@ -1,0 +1,9 @@
+{
+  "name": "Du Lịch Việt Nam",
+  "description": "Khám phá vẻ đẹp của đất nước Việt Nam qua những địa danh du lịch nổi tiếng từ Bắc vào Nam.",
+  "url": "https://dulichvietnam.vercel.app",
+  "ogImage": "/og-default.jpg",
+  "links": {
+    "github": "https://github.com/TheNK/MyWebsite"
+  }
+}
