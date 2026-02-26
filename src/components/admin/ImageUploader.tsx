@@ -3,8 +3,6 @@
 import { useState, useRef } from "react";
 import { uploadImage } from "@/lib/admin-api";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-
 interface ImageUploaderProps {
   value: string;
   onChange: (url: string) => void;
@@ -32,7 +30,7 @@ export default function ImageUploader({ value, onChange }: ImageUploaderProps) {
     }
   }
 
-  const fullUrl = value && value.startsWith("/uploads") ? `${API_URL}${value}` : value;
+  const fullUrl = value;
 
   return (
     <div className="space-y-2">

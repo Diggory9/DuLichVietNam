@@ -12,4 +12,7 @@ export const env = {
   corsOrigin: process.env.CORS_ORIGIN || "http://localhost:3000",
   nodeEnv: process.env.NODE_ENV || "development",
   uploadsDir: path.join(process.cwd(), "uploads"),
+  cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME || "",
+  cloudinaryApiKey: process.env.CLOUDINARY_API_KEY || "",
+  cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET || "",
 };
