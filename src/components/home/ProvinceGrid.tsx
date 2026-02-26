@@ -4,8 +4,8 @@ import AnimatedSection from "@/components/shared/AnimatedSection";
 import ProvinceCard from "@/components/shared/ProvinceCard";
 import { getAllProvinces } from "@/lib/data";
 
-export default function ProvinceGrid() {
-  const provinces = getAllProvinces();
+export default async function ProvinceGrid() {
+  const provinces = await getAllProvinces();
 
   return (
     <section id="tinh-thanh" className="py-20 sm:py-24">

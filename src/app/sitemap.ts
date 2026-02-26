@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getProvinceSlugs, getDestinationSlugs, getSiteConfig } from "@/lib/data";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const site = getSiteConfig();
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const site = await getSiteConfig();
   const baseUrl = site.url;
 
   const staticPages: MetadataRoute.Sitemap = [
@@ -11,14 +11,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/lien-he`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
   ];
 
-  const provincePages: MetadataRoute.Sitemap = getProvinceSlugs().map((slug) => ({
+  const provinceSlugs = await getProvinceSlugs();
+  const provincePages: MetadataRoute.Sitemap = provinceSlugs.map((slug) => ({
     url: `${baseUrl}/tinh/${slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly",
     priority: 0.8,
   }));
 
-  const destinationPages: MetadataRoute.Sitemap = getDestinationSlugs().map((slug) => ({
+  const destinationSlugs = await getDestinationSlugs();
+  const destinationPages: MetadataRoute.Sitemap = destinationSlugs.map((slug) => ({
     url: `${baseUrl}/dia-danh/${slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly",

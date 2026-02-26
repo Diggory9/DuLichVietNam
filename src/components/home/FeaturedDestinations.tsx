@@ -4,8 +4,8 @@ import AnimatedSection from "@/components/shared/AnimatedSection";
 import DestinationCard from "@/components/shared/DestinationCard";
 import { getFeaturedDestinations } from "@/lib/data";
 
-export default function FeaturedDestinations() {
-  const destinations = getFeaturedDestinations();
+export default async function FeaturedDestinations() {
+  const destinations = await getFeaturedDestinations();
 
   return (
     <section className="py-20 sm:py-24 bg-gray-50">

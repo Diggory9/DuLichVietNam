@@ -18,14 +18,15 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return getDestinationSlugs().map((slug) => ({ slug }));
+  const slugs = await getDestinationSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const destination = getDestinationBySlug(slug);
+  const destination = await getDestinationBySlug(slug);
   if (!destination) return {};
-  const site = getSiteConfig();
+  const site = await getSiteConfig();
 
   return {
     title: destination.name,
@@ -40,14 +41,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function DestinationPage({ params }: Props) {
   const { slug } = await params;
-  const destination = getDestinationBySlug(slug);
+  const destination = await getDestinationBySlug(slug);
   if (!destination) notFound();
 
-  const province = getProvinceBySlug(destination.provinceSlug);
+  const province = await getProvinceBySlug(destination.provinceSlug);
   if (!province) notFound();
 
-  const related = getRelatedDestinations(slug);
-  const site = getSiteConfig();
+  const related = await getRelatedDestinations(slug);
+  const site = await getSiteConfig();
 
   return (
     <>

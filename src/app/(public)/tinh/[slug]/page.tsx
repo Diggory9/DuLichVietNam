@@ -16,14 +16,15 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return getProvinceSlugs().map((slug) => ({ slug }));
+  const slugs = await getProvinceSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const province = getProvinceBySlug(slug);
+  const province = await getProvinceBySlug(slug);
   if (!province) return {};
-  const site = getSiteConfig();
+  const site = await getSiteConfig();
 
   return {
     title: province.name,
@@ -38,11 +39,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProvincePage({ params }: Props) {
   const { slug } = await params;
-  const province = getProvinceBySlug(slug);
+  const province = await getProvinceBySlug(slug);
   if (!province) notFound();
 
-  const destinations = getDestinationsByProvince(slug);
-  const site = getSiteConfig();
+  const destinations = await getDestinationsByProvince(slug);
+  const site = await getSiteConfig();
 
   return (
     <>

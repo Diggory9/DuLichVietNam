@@ -9,8 +9,8 @@ const statLabels: Record<string, { label: string; icon: string }> = {
   regions: { label: "Vùng miền", icon: "🌏" },
 };
 
-export default function StatsSection() {
-  const stats = getStats();
+export default async function StatsSection() {
+  const stats = await getStats();
 
   return (
     <section className="py-14 sm:py-16 bg-gradient-to-r from-primary-50 to-accent-50">

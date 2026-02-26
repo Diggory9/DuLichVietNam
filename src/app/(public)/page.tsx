@@ -5,8 +5,8 @@ import FeaturedDestinations from "@/components/home/FeaturedDestinations";
 import JsonLd from "@/components/shared/JsonLd";
 import { getSiteConfig } from "@/lib/data";
 
-export default function HomePage() {
-  const site = getSiteConfig();
+export default async function HomePage() {
+  const site = await getSiteConfig();
 
   return (
     <>

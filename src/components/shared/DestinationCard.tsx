@@ -11,12 +11,12 @@ interface DestinationCardProps {
   showProvince?: boolean;
 }
 
-export default function DestinationCard({
+export default async function DestinationCard({
   destination,
   showProvince,
 }: DestinationCardProps) {
   const province = showProvince
-    ? getProvinceBySlug(destination.provinceSlug)
+    ? await getProvinceBySlug(destination.provinceSlug)
     : null;
 
   return (

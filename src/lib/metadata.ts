@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { getSiteConfig } from "./data";
 
-const site = getSiteConfig();
-
-export function createMetadata({
+export async function createMetadata({
   title,
   description,
   image,
@@ -13,7 +11,9 @@ export function createMetadata({
   description?: string;
   image?: string;
   path?: string;
-}): Metadata {
+}): Promise<Metadata> {
+  const site = await getSiteConfig();
+
   const fullTitle = title ? `${title} | ${site.name}` : site.name;
   const fullDescription = description || site.description;
   const fullUrl = `${site.url}${path}`;
