@@ -49,6 +49,16 @@ export default function Footer() {
             </h3>
             <ul className="mt-4 space-y-2.5">
               <li>
+                <Link href="/kham-pha" className="text-sm hover:text-white transition-colors">
+                  Khám phá
+                </Link>
+              </li>
+              <li>
+                <Link href="/bai-viet" className="text-sm hover:text-white transition-colors">
+                  Bài viết
+                </Link>
+              </li>
+              <li>
                 <Link href="/ve-chung-toi" className="text-sm hover:text-white transition-colors">
                   Về chúng tôi
                 </Link>

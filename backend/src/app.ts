@@ -14,6 +14,7 @@ import statsRoutes from "./routes/stats.routes";
 import siteConfigRoutes from "./routes/siteConfig.routes";
 import authRoutes from "./routes/auth.routes";
 import uploadRoutes from "./routes/upload.routes";
+import postRoutes from "./routes/post.routes";
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use("/api/stats", statsRoutes);
 app.use("/api/site-config", siteConfigRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/posts", postRoutes);
 
 // Health check
 app.get("/api/health", (_req, res) => {

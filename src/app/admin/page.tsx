@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { fetchStats, fetchProvinces, fetchDestinations } from "@/lib/admin-api";
+import { fetchStats, fetchProvinces, fetchDestinations, fetchPosts } from "@/lib/admin-api";
 
 interface Stats {
   provinces: number;
   destinations: number;
+  posts: number;
   categories: number;
   regions: number;
 }
@@ -15,14 +16,16 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [recentProvinces, setRecentProvinces] = useState<Record<string, unknown>[]>([]);
   const [recentDestinations, setRecentDestinations] = useState<Record<string, unknown>[]>([]);
+  const [recentPosts, setRecentPosts] = useState<Record<string, unknown>[]>([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    Promise.all([fetchStats(), fetchProvinces(), fetchDestinations()])
-      .then(([s, p, d]) => {
+    Promise.all([fetchStats(), fetchProvinces(), fetchDestinations(), fetchPosts()])
+      .then(([s, p, d, posts]) => {
         setStats(s);
         setRecentProvinces((p as Record<string, unknown>[]).slice(0, 5));
         setRecentDestinations((d as Record<string, unknown>[]).slice(0, 5));
+        setRecentPosts((posts as Record<string, unknown>[]).slice(0, 5));
       })
       .catch((err) => setError(err.message));
   }, []);
@@ -47,7 +50,7 @@ export default function AdminDashboard() {
           {[
             { label: "Tỉnh thành", value: stats.provinces, icon: "🗺️", href: "/admin/provinces" },
             { label: "Địa danh", value: stats.destinations, icon: "📍", href: "/admin/destinations" },
-            { label: "Danh mục", value: stats.categories, icon: "🏷️" },
+            { label: "Bài viết", value: stats.posts, icon: "📝", href: "/admin/posts" },
             { label: "Vùng miền", value: stats.regions, icon: "🌏" },
           ].map((item) => (
             <div key={item.label} className="bg-white rounded-xl p-6 shadow-sm">
@@ -108,6 +111,34 @@ export default function AdminDashboard() {
               </Link>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* Recent Posts */}
+      <div className="mt-6 bg-white rounded-xl shadow-sm p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-gray-900">Bài viết gần đây</h2>
+          <Link href="/admin/posts/new" className="text-sm bg-primary-600 text-white px-3 py-1.5 rounded-lg hover:bg-primary-700">
+            + Thêm mới
+          </Link>
+        </div>
+        <div className="space-y-3">
+          {recentPosts.map((post) => (
+            <Link key={post.slug as string} href={`/admin/posts/${post.slug}`} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
+              <div>
+                <p className="font-medium text-gray-900 text-sm">{post.title as string}</p>
+                <p className="text-xs text-gray-500">{post.category as string} &middot; {(post.views as number) || 0} lượt xem</p>
+              </div>
+              {post.published ? (
+                <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">Đã xuất bản</span>
+              ) : (
+                <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">Nháp</span>
+              )}
+            </Link>
+          ))}
+          {recentPosts.length === 0 && (
+            <p className="text-sm text-gray-400 text-center py-3">Chưa có bài viết nào</p>
+          )}
         </div>
       </div>
     </div>

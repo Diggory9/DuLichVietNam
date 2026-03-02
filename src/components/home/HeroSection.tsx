@@ -1,10 +1,22 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 
 export default function HeroSection() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+
+  function handleSearch(e: React.FormEvent) {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/kham-pha?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  }
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700">
       {/* Decorative background */}
@@ -58,11 +70,34 @@ export default function HeroSection() {
             và nhịp sống sôi động của Sài Gòn – Việt Nam luôn có điều kỳ diệu cho bạn.
           </motion.p>
 
-          <motion.div
+          {/* Search form */}
+          <motion.form
+            onSubmit={handleSearch}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
+            className="mt-8 flex gap-2 max-w-md mx-auto"
+          >
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Bạn muốn đi đâu?"
+              className="flex-1 px-4 py-3 rounded-lg text-sm text-gray-900 bg-white/95 backdrop-blur-sm border border-white/20 focus:ring-2 focus:ring-accent-400 outline-none placeholder:text-gray-400"
+            />
+            <button
+              type="submit"
+              className="px-5 py-3 bg-accent-500 text-white rounded-lg text-sm font-medium hover:bg-accent-600 transition-colors"
+            >
+              Tìm kiếm
+            </button>
+          </motion.form>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mt-6 flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Button href="#tinh-thanh" variant="secondary" size="lg">
               Khám phá ngay

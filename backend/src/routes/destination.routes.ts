@@ -8,6 +8,8 @@ import {
   createDestination,
   updateDestination,
   deleteDestination,
+  searchDestinations,
+  quickSearch,
 } from "../controllers/destination.controller";
 import { auth } from "../middleware/auth";
 
@@ -16,6 +18,8 @@ const router = Router();
 // Public
 router.get("/", getAllDestinations);
 router.get("/featured", getFeaturedDestinations);
+router.get("/search", searchDestinations);
+router.get("/quick-search", quickSearch);
 router.get("/by-province/:slug", getDestinationsByProvince);
 router.get("/:slug", getDestinationBySlug);
 router.get("/:slug/related", getRelatedDestinations);

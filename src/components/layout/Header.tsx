@@ -1,9 +1,12 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import MobileNav from "./MobileNav";
+import SearchBar from "@/components/shared/SearchBar";
 
 const navLinks = [
   { href: "/", label: "Trang chủ" },
+  { href: "/kham-pha", label: "Khám phá" },
+  { href: "/bai-viet", label: "Bài viết" },
   { href: "/tinh/ha-noi", label: "Hà Nội" },
   { href: "/tinh/da-nang", label: "Đà Nẵng" },
   { href: "/tinh/ho-chi-minh", label: "Hồ Chí Minh" },
@@ -24,6 +27,10 @@ export default function Header() {
               Du Lịch <span className="text-primary-600">Việt Nam</span>
             </span>
           </Link>
+
+          <div className="hidden lg:block flex-1 max-w-xs mx-6">
+            <SearchBar />
+          </div>
 
           <div className="hidden lg:flex items-center gap-2">
             {navLinks.map((link) => (

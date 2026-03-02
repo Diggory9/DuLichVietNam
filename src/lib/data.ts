@@ -1,4 +1,4 @@
-import type { Province, Destination, SiteConfig } from "@/types";
+import type { Province, Destination, SiteConfig, SearchParams, SearchResult, QuickSearchResult, Post, PaginatedResponse } from "@/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 const REVALIDATE = 60;
@@ -131,12 +131,14 @@ export async function getRelatedDestinations(
 export async function getStats(): Promise<{
   provinces: number;
   destinations: number;
+  posts: number;
   categories: number;
   regions: number;
 }> {
   const data = await apiFetch<{
     provinces: number;
     destinations: number;
+    posts: number;
     categories: number;
     regions: number;
   }>("/api/stats");
@@ -145,8 +147,115 @@ export async function getStats(): Promise<{
   return {
     provinces: fallbackProvinces.length,
     destinations: fallbackDestinations.length,
+    posts: 0,
     categories: [...new Set(fallbackDestinations.map((d) => d.category))]
       .length,
     regions: [...new Set(fallbackProvinces.map((p) => p.region))].length,
   };
+}
+
+// --- Search ---
+
+export async function searchDestinations(
+  params: SearchParams
+): Promise<SearchResult> {
+  try {
+    const query = new URLSearchParams();
+    Object.entries(params).forEach(([k, v]) => {
+      if (v) query.set(k, v);
+    });
+    const res = await fetch(`${API_URL}/api/destinations/search?${query}`, {
+      next: { revalidate: REVALIDATE },
+    });
+    if (!res.ok) throw new Error();
+    const json = await res.json();
+    return { data: json.data, pagination: json.pagination };
+  } catch {
+    // Fallback: filter local data
+    let filtered = [...fallbackDestinations];
+    if (params.q) {
+      const q = params.q.toLowerCase();
+      filtered = filtered.filter(
+        (d) =>
+          d.name.toLowerCase().includes(q) ||
+          d.nameVi.toLowerCase().includes(q) ||
+          d.description.toLowerCase().includes(q)
+      );
+    }
+    if (params.category) {
+      filtered = filtered.filter((d) => d.category === params.category);
+    }
+    if (params.province) {
+      filtered = filtered.filter((d) => d.provinceSlug === params.province);
+    }
+    const page = parseInt(params.page || "1");
+    const limit = parseInt(params.limit || "12");
+    const start = (page - 1) * limit;
+    return {
+      data: filtered.slice(start, start + limit),
+      pagination: {
+        page,
+        limit,
+        total: filtered.length,
+        totalPages: Math.ceil(filtered.length / limit),
+      },
+    };
+  }
+}
+
+export async function quickSearch(q: string): Promise<QuickSearchResult> {
+  try {
+    const res = await fetch(
+      `${API_URL}/api/destinations/quick-search?q=${encodeURIComponent(q)}`,
+      { cache: "no-store" }
+    );
+    if (!res.ok) throw new Error();
+    const json = await res.json();
+    return json.data;
+  } catch {
+    return { destinations: [], provinces: [] };
+  }
+}
+
+// --- Blog / Posts ---
+
+export async function getLatestPosts(): Promise<Post[]> {
+  const data = await apiFetch<Post[]>("/api/posts/latest");
+  return data || [];
+}
+
+export async function getAllPosts(
+  page: number = 1,
+  category?: string
+): Promise<PaginatedResponse<Post>> {
+  try {
+    const query = new URLSearchParams({ page: String(page), limit: "12" });
+    if (category) query.set("category", category);
+    const res = await fetch(`${API_URL}/api/posts?${query}`, {
+      next: { revalidate: REVALIDATE },
+    });
+    if (!res.ok) throw new Error();
+    const json = await res.json();
+    return { data: json.data, pagination: json.pagination };
+  } catch {
+    return {
+      data: [],
+      pagination: { page: 1, limit: 12, total: 0, totalPages: 0 },
+    };
+  }
+}
+
+export async function getPostBySlug(slug: string): Promise<Post | undefined> {
+  const data = await apiFetch<Post>(`/api/posts/${slug}`);
+  return data || undefined;
+}
+
+export async function getPostSlugs(): Promise<string[]> {
+  const result = await getAllPosts(1);
+  return result.data.map((p) => p.slug);
+}
+
+export async function getRelatedPosts(slug: string): Promise<Post[]> {
+  const data = await apiFetch<Post[]>(`/api/posts/${slug}/related`);
+  return data || [];
 }

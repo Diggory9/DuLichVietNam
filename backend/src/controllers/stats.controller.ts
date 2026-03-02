@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { Province } from "../models/Province";
 import { Destination } from "../models/Destination";
+import { Post } from "../models/Post";
 
 export async function getStats(
   _req: Request,
@@ -8,10 +9,11 @@ export async function getStats(
   next: NextFunction
 ) {
   try {
-    const [provinceCount, destinationCount, categories, regions] =
+    const [provinceCount, destinationCount, postCount, categories, regions] =
       await Promise.all([
         Province.countDocuments(),
         Destination.countDocuments(),
+        Post.countDocuments({ published: true }),
         Destination.distinct("category"),
         Province.distinct("region"),
       ]);
@@ -21,6 +23,7 @@ export async function getStats(
       data: {
         provinces: provinceCount,
         destinations: destinationCount,
+        posts: postCount,
         categories: categories.length,
         regions: regions.length,
       },

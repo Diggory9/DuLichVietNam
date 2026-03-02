@@ -169,6 +169,55 @@ export async function uploadImages(
   return handleResponse<{ url: string }[]>(res);
 }
 
+// --- Posts ---
+
+export async function fetchPosts() {
+  const res = await fetch(`${API_URL}/api/posts/admin/all`, {
+    headers: authHeaders(),
+  });
+  return handleResponse<unknown[]>(res);
+}
+
+export async function fetchPost(slug: string) {
+  const res = await fetch(`${API_URL}/api/posts/${slug}`);
+  return handleResponse(res);
+}
+
+export async function createPost(data: Record<string, unknown>) {
+  const res = await fetch(`${API_URL}/api/posts`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
+}
+
+export async function updatePost(
+  slug: string,
+  data: Record<string, unknown>
+) {
+  const res = await fetch(`${API_URL}/api/posts/${slug}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
+}
+
+export async function deletePost(slug: string) {
+  const res = await fetch(`${API_URL}/api/posts/${slug}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
+}
+
 // --- Stats ---
 
 export async function fetchStats() {
@@ -176,6 +225,7 @@ export async function fetchStats() {
   return handleResponse<{
     provinces: number;
     destinations: number;
+    posts: number;
     categories: number;
     regions: number;
   }>(res);

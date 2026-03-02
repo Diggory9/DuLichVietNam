@@ -8,6 +8,7 @@ const navItems = [
   { href: "/admin", label: "Dashboard", icon: "📊" },
   { href: "/admin/provinces", label: "Tỉnh thành", icon: "🗺️" },
   { href: "/admin/destinations", label: "Địa danh", icon: "📍" },
+  { href: "/admin/posts", label: "Bài viết", icon: "📝" },
   { href: "/admin/site-config", label: "Cấu hình", icon: "⚙️" },
 ];
 

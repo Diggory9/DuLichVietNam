@@ -5,6 +5,7 @@ import { getStats } from "@/lib/data";
 const statLabels: Record<string, { label: string; icon: string }> = {
   provinces: { label: "Tỉnh thành", icon: "🗺️" },
   destinations: { label: "Địa danh", icon: "📍" },
+  posts: { label: "Bài viết", icon: "📝" },
   categories: { label: "Danh mục", icon: "🏷️" },
   regions: { label: "Vùng miền", icon: "🌏" },
 };

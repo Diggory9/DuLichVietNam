@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
+import SearchBar from "@/components/shared/SearchBar";
 
 interface MobileNavProps {
   links: { href: string; label: string }[];
@@ -37,6 +38,9 @@ export default function MobileNav({ links }: MobileNavProps) {
             className="absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-lg"
           >
             <nav className="flex flex-col p-4 gap-1">
+              <div className="mb-3">
+                <SearchBar />
+              </div>
               {links.map((link) => (
                 <Link
                   key={link.href}

@@ -77,3 +77,73 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   "giai-tri": "Giải trí",
   "tam-linh": "Tâm linh",
 };
+
+// --- Search ---
+
+export interface SearchParams {
+  q?: string;
+  category?: string;
+  region?: string;
+  province?: string;
+  sort?: string;
+  page?: string;
+  limit?: string;
+}
+
+export interface PaginationInfo {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface SearchResult {
+  data: Destination[];
+  pagination: PaginationInfo;
+}
+
+export interface QuickSearchResult {
+  destinations: Pick<Destination, "name" | "slug" | "images" | "category">[];
+  provinces: Pick<Province, "name" | "slug" | "thumbnail">[];
+}
+
+// --- Blog / Posts ---
+
+export interface Post {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  coverImage: string;
+  author: string;
+  category: string;
+  tags: string[];
+  published: boolean;
+  publishedAt: string | null;
+  views: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type PostCategory =
+  | "du-lich"
+  | "am-thuc"
+  | "van-hoa"
+  | "meo-vat"
+  | "trai-nghiem"
+  | "tin-tuc";
+
+export const POST_CATEGORY_LABELS: Record<PostCategory, string> = {
+  "du-lich": "Du lịch",
+  "am-thuc": "Ẩm thực",
+  "van-hoa": "Văn hoá",
+  "meo-vat": "Mẹo vặt",
+  "trai-nghiem": "Trải nghiệm",
+  "tin-tuc": "Tin tức",
+};
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  pagination: PaginationInfo;
+}
