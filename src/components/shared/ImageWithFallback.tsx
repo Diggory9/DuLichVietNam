@@ -26,7 +26,7 @@ export default function ImageWithFallback({
 }: ImageWithFallbackProps) {
   const [error, setError] = useState(false);
 
-  if (error) {
+  if (error || !src) {
     return (
       <div
         className={cn(

@@ -216,6 +216,32 @@ export async function searchDestinations(
   }
 }
 
+export async function getDestinationsForMap(
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const destinations = await Destination.find({
+      "coordinates.lat": { $exists: true },
+      "coordinates.lng": { $exists: true },
+    }).select("slug name nameVi coordinates category images");
+
+    const data = destinations.map((d) => ({
+      slug: d.slug,
+      name: d.name,
+      nameVi: d.nameVi,
+      coordinates: d.coordinates,
+      category: d.category,
+      image: d.images[0]?.src || null,
+    }));
+
+    res.json({ success: true, data });
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function quickSearch(
   req: Request,
   res: Response,

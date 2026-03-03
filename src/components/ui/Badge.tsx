@@ -12,10 +12,10 @@ export default function Badge({
   className,
 }: BadgeProps) {
   const variants = {
-    default: "bg-gray-100 text-gray-700",
-    primary: "bg-primary-100 text-primary-700",
-    accent: "bg-accent-100 text-accent-700",
-    emerald: "bg-emerald-50 text-emerald-700",
+    default: "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300",
+    primary: "bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-300",
+    accent: "bg-accent-100 text-accent-700 dark:bg-accent-900/50 dark:text-accent-300",
+    emerald: "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300",
   };
 
   return (

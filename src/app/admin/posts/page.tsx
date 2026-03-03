@@ -3,14 +3,55 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { fetchPosts, deletePost } from "@/lib/admin-api";
+import { fetchPosts, deletePost, bulkUpdatePosts } from "@/lib/admin-api";
 import { POST_CATEGORY_LABELS, type PostCategory } from "@/types";
+import { useToast } from "@/components/ui/ToastProvider";
 
 export default function AdminPostsPage() {
   const [posts, setPosts] = useState<Record<string, unknown>[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selected, setSelected] = useState<string[]>([]);
   const router = useRouter();
+  const { toast } = useToast();
+
+  function toggleSelect(slug: string) {
+    setSelected((prev) =>
+      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]
+    );
+  }
+
+  function toggleSelectAll() {
+    if (selected.length === posts.length) {
+      setSelected([]);
+    } else {
+      setSelected(posts.map((p) => p.slug as string));
+    }
+  }
+
+  async function handleBulkAction(action: string) {
+    if (selected.length === 0) return;
+    const labels: Record<string, string> = { publish: "xuất bản", unpublish: "ẩn", delete: "xoá" };
+    if (!confirm(`${labels[action] || action} ${selected.length} bài viết?`)) return;
+    try {
+      await bulkUpdatePosts(selected, action);
+      if (action === "delete") {
+        setPosts((prev) => prev.filter((p) => !selected.includes(p.slug as string)));
+      } else {
+        setPosts((prev) =>
+          prev.map((p) =>
+            selected.includes(p.slug as string)
+              ? { ...p, published: action === "publish" }
+              : p
+          )
+        );
+      }
+      setSelected([]);
+      toast("Thao tác thành công", { variant: "success" });
+    } catch (err) {
+      toast(err instanceof Error ? err.message : "Lỗi", { variant: "error" });
+    }
+  }
 
   useEffect(() => {
     fetchPosts()
@@ -25,8 +66,9 @@ export default function AdminPostsPage() {
     try {
       await deletePost(slug);
       setPosts((prev) => prev.filter((p) => p.slug !== slug));
+      toast("Đã xoá bài viết", { variant: "success" });
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Lỗi xoá");
+      toast(err instanceof Error ? err.message : "Lỗi xoá", { variant: "error" });
     }
   }
 
@@ -50,10 +92,39 @@ export default function AdminPostsPage() {
         </button>
       </div>
 
+      {/* Bulk action bar */}
+      {selected.length > 0 && (
+        <div className="bg-primary-50 border border-primary-200 rounded-lg px-4 py-3 mb-4 flex items-center gap-3">
+          <span className="text-sm text-primary-700 font-medium">
+            Đã chọn {selected.length} bài viết
+          </span>
+          <button onClick={() => handleBulkAction("publish")} className="text-xs bg-green-600 text-white px-3 py-1.5 rounded-lg hover:bg-green-700">
+            Xuất bản
+          </button>
+          <button onClick={() => handleBulkAction("unpublish")} className="text-xs bg-gray-600 text-white px-3 py-1.5 rounded-lg hover:bg-gray-700">
+            Ẩn
+          </button>
+          <button onClick={() => handleBulkAction("delete")} className="text-xs bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700">
+            Xoá
+          </button>
+          <button onClick={() => setSelected([])} className="text-xs text-gray-500 hover:text-gray-700 ml-auto">
+            Bỏ chọn
+          </button>
+        </div>
+      )}
+
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b">
             <tr>
+              <th className="px-4 py-3 w-10">
+                <input
+                  type="checkbox"
+                  checked={posts.length > 0 && selected.length === posts.length}
+                  onChange={toggleSelectAll}
+                  className="rounded border-gray-300"
+                />
+              </th>
               <th className="text-left px-6 py-3 font-medium text-gray-500">
                 Tiêu đề
               </th>
@@ -80,6 +151,14 @@ export default function AdminPostsPage() {
                 key={post.slug as string}
                 className="hover:bg-gray-50"
               >
+                <td className="px-4 py-4">
+                  <input
+                    type="checkbox"
+                    checked={selected.includes(post.slug as string)}
+                    onChange={() => toggleSelect(post.slug as string)}
+                    className="rounded border-gray-300"
+                  />
+                </td>
                 <td className="px-6 py-4 font-medium text-gray-900">
                   {post.title as string}
                 </td>

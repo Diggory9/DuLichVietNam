@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { fetchStats, fetchProvinces, fetchDestinations, fetchPosts } from "@/lib/admin-api";
+import { fetchStats, fetchProvinces, fetchDestinations, fetchPosts, fetchDetailedStats } from "@/lib/admin-api";
+import Skeleton from "@/components/ui/Skeleton";
+import StatsCharts from "@/components/admin/StatsCharts";
 
 interface Stats {
   provinces: number;
@@ -10,6 +12,9 @@ interface Stats {
   posts: number;
   categories: number;
   regions: number;
+  unreadContacts: number;
+  comments: number;
+  reviews: number;
 }
 
 export default function AdminDashboard() {
@@ -17,6 +22,8 @@ export default function AdminDashboard() {
   const [recentProvinces, setRecentProvinces] = useState<Record<string, unknown>[]>([]);
   const [recentDestinations, setRecentDestinations] = useState<Record<string, unknown>[]>([]);
   const [recentPosts, setRecentPosts] = useState<Record<string, unknown>[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [detailedStats, setDetailedStats] = useState<any>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -28,6 +35,11 @@ export default function AdminDashboard() {
         setRecentPosts((posts as Record<string, unknown>[]).slice(0, 5));
       })
       .catch((err) => setError(err.message));
+
+    // Fetch detailed stats for charts
+    fetchDetailedStats()
+      .then((d) => setDetailedStats(d))
+      .catch(() => {}); // Non-critical
   }, []);
 
   if (error) {
@@ -45,12 +57,25 @@ export default function AdminDashboard() {
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
 
       {/* Stats */}
+      {!stats && !error && (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {Array.from({ length: 7 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-xl p-6 shadow-sm">
+              <Skeleton className="h-4 w-20 mb-3" />
+              <Skeleton className="h-8 w-16" />
+            </div>
+          ))}
+        </div>
+      )}
       {stats && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {[
             { label: "Tỉnh thành", value: stats.provinces, icon: "🗺️", href: "/admin/provinces" },
             { label: "Địa danh", value: stats.destinations, icon: "📍", href: "/admin/destinations" },
             { label: "Bài viết", value: stats.posts, icon: "📝", href: "/admin/posts" },
+            { label: "Liên hệ chưa đọc", value: stats.unreadContacts, icon: "📬", href: "/admin/contacts" },
+            { label: "Bình luận", value: stats.comments, icon: "💬", href: "/admin/comments" },
+            { label: "Đánh giá", value: stats.reviews, icon: "⭐", href: "/admin/reviews" },
             { label: "Vùng miền", value: stats.regions, icon: "🌏" },
           ].map((item) => (
             <div key={item.label} className="bg-white rounded-xl p-6 shadow-sm">
@@ -113,6 +138,14 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Charts */}
+      {detailedStats && (
+        <div className="mt-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Thống kê chi tiết</h2>
+          <StatsCharts data={detailedStats} />
+        </div>
+      )}
 
       {/* Recent Posts */}
       <div className="mt-6 bg-white rounded-xl shadow-sm p-6">

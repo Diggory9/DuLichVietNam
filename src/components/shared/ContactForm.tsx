@@ -5,6 +5,8 @@ import Input from "@/components/ui/Input";
 import Textarea from "@/components/ui/Textarea";
 import Button from "@/components/ui/Button";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 interface FormData {
   name: string;
   email: string;
@@ -28,6 +30,8 @@ export default function ContactForm() {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   function validate(): FormErrors {
     const errs: FormErrors = {};
@@ -40,12 +44,29 @@ export default function ContactForm() {
     return errs;
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const errs = validate();
     setErrors(errs);
-    if (Object.keys(errs).length === 0) {
+    if (Object.keys(errs).length > 0) return;
+
+    setLoading(true);
+    setSubmitError("");
+    try {
+      const res = await fetch(`${API_URL}/api/contacts`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Gửi thất bại");
+      }
       setSubmitted(true);
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : "Có lỗi xảy ra, vui lòng thử lại");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -58,13 +79,13 @@ export default function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="text-center py-12 px-6 bg-emerald-50 rounded-2xl">
+      <div className="text-center py-12 px-6 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl">
         <div className="w-16 h-16 mx-auto rounded-full bg-emerald-100 flex items-center justify-center">
           <svg className="w-8 h-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h3 className="mt-4 text-2xl font-bold text-gray-900">
+        <h3 className="mt-4 text-2xl font-bold text-gray-900 dark:text-white">
           Cảm ơn bạn đã liên hệ!
         </h3>
         <p className="mt-2 text-gray-600">
@@ -117,8 +138,11 @@ export default function ContactForm() {
         onChange={(e) => handleChange("message", e.target.value)}
         error={errors.message}
       />
-      <Button type="submit" size="lg" className="w-full sm:w-auto">
-        Gửi tin nhắn
+      {submitError && (
+        <p className="text-red-600 text-sm">{submitError}</p>
+      )}
+      <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={loading}>
+        {loading ? "Đang gửi..." : "Gửi tin nhắn"}
       </Button>
     </form>
   );

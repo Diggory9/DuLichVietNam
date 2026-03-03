@@ -218,7 +218,162 @@ export async function deletePost(slug: string) {
   return result;
 }
 
+// --- Contacts ---
+
+export async function fetchContacts(read?: boolean) {
+  const query = read !== undefined ? `?read=${read}` : "";
+  const res = await fetch(`${API_URL}/api/contacts/admin/all${query}`, {
+    headers: authHeaders(),
+  });
+  return handleResponse<unknown[]>(res);
+}
+
+export async function markContactRead(id: string) {
+  const res = await fetch(`${API_URL}/api/contacts/${id}/read`, {
+    method: "PATCH",
+    headers: authHeaders(),
+  });
+  return handleResponse(res);
+}
+
+export async function markContactUnread(id: string) {
+  const res = await fetch(`${API_URL}/api/contacts/${id}/unread`, {
+    method: "PATCH",
+    headers: authHeaders(),
+  });
+  return handleResponse(res);
+}
+
+export async function deleteContact(id: string) {
+  const res = await fetch(`${API_URL}/api/contacts/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  return handleResponse(res);
+}
+
+// --- Comments ---
+
+export async function fetchComments(postSlug?: string) {
+  const query = postSlug ? `?postSlug=${postSlug}` : "";
+  const res = await fetch(`${API_URL}/api/comments/admin/all${query}`, {
+    headers: authHeaders(),
+  });
+  return handleResponse<unknown[]>(res);
+}
+
+export async function deleteComment(id: string) {
+  const res = await fetch(`${API_URL}/api/comments/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  return handleResponse(res);
+}
+
+// --- Reviews ---
+
+export async function fetchReviews(destinationSlug?: string) {
+  const query = destinationSlug ? `?destinationSlug=${destinationSlug}` : "";
+  const res = await fetch(`${API_URL}/api/reviews/admin/all${query}`, {
+    headers: authHeaders(),
+  });
+  return handleResponse<unknown[]>(res);
+}
+
+export async function deleteReview(id: string) {
+  const res = await fetch(`${API_URL}/api/reviews/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  return handleResponse(res);
+}
+
+// --- Newsletter ---
+
+export async function fetchSubscribers() {
+  const res = await fetch(`${API_URL}/api/newsletter/admin/all`, {
+    headers: authHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Lỗi");
+  return { subscribers: data.data, activeCount: data.activeCount };
+}
+
+export async function sendNewsletter(subject: string, content: string) {
+  const res = await fetch(`${API_URL}/api/newsletter/admin/send`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify({ subject, content }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Lỗi gửi");
+  return data;
+}
+
+// --- Users ---
+
+export async function fetchUsers(page = 1, role?: string, q?: string) {
+  const params = new URLSearchParams({ page: String(page) });
+  if (role) params.set("role", role);
+  if (q) params.set("q", q);
+  const res = await fetch(`${API_URL}/api/admin/users?${params}`, {
+    headers: authHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Lỗi");
+  return { users: data.data, pagination: data.pagination };
+}
+
+export async function updateUserRole(id: string, role: string) {
+  const res = await fetch(`${API_URL}/api/admin/users/${id}/role`, {
+    method: "PATCH",
+    headers: authHeaders(),
+    body: JSON.stringify({ role }),
+  });
+  return handleResponse(res);
+}
+
+export async function deleteUser(id: string) {
+  const res = await fetch(`${API_URL}/api/admin/users/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  return handleResponse(res);
+}
+
+// --- Bulk Actions ---
+
+export async function bulkUpdatePosts(slugs: string[], action: string) {
+  const res = await fetch(`${API_URL}/api/posts/admin/bulk`, {
+    method: "PATCH",
+    headers: authHeaders(),
+    body: JSON.stringify({ slugs, action }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Lỗi");
+  await revalidateFrontend();
+  return data;
+}
+
+export async function bulkDeleteComments(ids: string[]) {
+  const res = await fetch(`${API_URL}/api/comments/admin/bulk`, {
+    method: "DELETE",
+    headers: authHeaders(),
+    body: JSON.stringify({ ids }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Lỗi");
+  return data;
+}
+
 // --- Stats ---
+
+export async function fetchDetailedStats() {
+  const res = await fetch(`${API_URL}/api/stats/detailed`, {
+    headers: authHeaders(),
+  });
+  return handleResponse(res);
+}
 
 export async function fetchStats() {
   const res = await fetch(`${API_URL}/api/stats`);
@@ -228,5 +383,8 @@ export async function fetchStats() {
     posts: number;
     categories: number;
     regions: number;
+    unreadContacts: number;
+    comments: number;
+    reviews: number;
   }>(res);
 }

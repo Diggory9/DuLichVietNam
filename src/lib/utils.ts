@@ -5,3 +5,9 @@ export function cn(...classes: (string | boolean | undefined | null)[]): string 
 export function formatNumber(num: number): string {
   return new Intl.NumberFormat("vi-VN").format(num);
 }
+
+export function calculateReadingTime(content: string): number {
+  const words = content.trim().split(/\s+/).length;
+  const minutes = Math.ceil(words / 200);
+  return Math.max(1, minutes);
+}

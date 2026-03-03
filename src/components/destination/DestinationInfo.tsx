@@ -1,6 +1,7 @@
 import Container from "@/components/ui/Container";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import Badge from "@/components/ui/Badge";
+import StarRating from "@/components/shared/StarRating";
 import type { Destination } from "@/types";
 
 interface DestinationInfoProps {
@@ -57,6 +58,12 @@ export default function DestinationInfo({ destination }: DestinationInfoProps) {
               <h3 className="text-lg font-bold text-gray-900">
                 Thông tin tham quan
               </h3>
+              {(destination.reviewCount ?? 0) > 0 && (
+                <div className="flex items-center gap-2">
+                  <StarRating rating={destination.averageRating ?? 0} size="md" showValue />
+                  <span className="text-sm text-gray-500">({destination.reviewCount} đánh giá)</span>
+                </div>
+              )}
               {infoItems.map(
                 (item) =>
                   destination[item.key] && (

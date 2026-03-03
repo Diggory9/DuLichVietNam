@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { AuthProvider, useAuth } from "@/components/admin/AuthProvider";
 import AdminSidebar from "@/components/admin/AdminSidebar";
+import { ToastProvider } from "@/components/ui/ToastProvider";
 
 function AdminContent({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -49,7 +50,9 @@ export default function AdminLayout({
 }) {
   return (
     <AuthProvider>
-      <AdminContent>{children}</AdminContent>
+      <ToastProvider>
+        <AdminContent>{children}</AdminContent>
+      </ToastProvider>
     </AuthProvider>
   );
 }

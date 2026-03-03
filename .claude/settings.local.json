@@ -3,7 +3,23 @@
     "allow": [
       "Bash(node:*)",
       "Bash(git:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(npm run:*)",
+      "Bash(netstat:*)",
+      "Bash(taskkill:*)",
+      "Bash(mongod:*)",
+      "Bash(docker:*)",
+      "Bash(npx tsx:*)",
+      "Bash(curl:*)",
+      "Bash(grep:*)",
+      "Bash(npm ls:*)",
+      "Bash(python:*)",
+      "Bash(findstr:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx ts-node:*)",
+      "Bash(npm install:*)",
+      "Bash(ls:*)",
+      "Bash(npx next:*)"
     ]
   }
 }

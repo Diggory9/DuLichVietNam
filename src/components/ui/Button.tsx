@@ -23,12 +23,12 @@ export default function Button({
   onClick,
 }: ButtonProps) {
   const base =
-    "inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2";
+    "inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900";
 
   const variants = {
     primary: "bg-primary-600 text-white hover:bg-primary-700 shadow-lg shadow-primary-500/25",
     secondary: "bg-accent-500 text-white hover:bg-accent-600 shadow-lg shadow-accent-500/25",
-    outline: "border-2 border-primary-600 text-primary-600 hover:bg-primary-50",
+    outline: "border-2 border-primary-600 text-primary-600 hover:bg-primary-50 dark:border-primary-400 dark:text-primary-400 dark:hover:bg-primary-950",
   };
 
   const sizes = {

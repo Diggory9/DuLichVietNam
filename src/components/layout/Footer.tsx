@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
+import NewsletterForm from "@/components/shared/NewsletterForm";
 
 export default function Footer() {
   return (
@@ -69,6 +70,21 @@ export default function Footer() {
                 </Link>
               </li>
             </ul>
+          </div>
+        </div>
+
+        {/* Newsletter */}
+        <div className="border-t border-gray-800 py-8">
+          <div className="max-w-md mx-auto text-center">
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-2">
+              Nhận tin mới
+            </h3>
+            <p className="text-sm text-gray-400 mb-4">
+              Đăng ký nhận bài viết và ưu đãi du lịch mới nhất
+            </p>
+            <div className="relative">
+              <NewsletterForm />
+            </div>
           </div>
         </div>
 

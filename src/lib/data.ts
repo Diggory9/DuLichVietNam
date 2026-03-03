@@ -1,4 +1,4 @@
-import type { Province, Destination, SiteConfig, SearchParams, SearchResult, QuickSearchResult, Post, PaginatedResponse } from "@/types";
+import type { Province, Destination, SiteConfig, SearchParams, SearchResult, QuickSearchResult, Post, PaginatedResponse, Comment, Review, Itinerary } from "@/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 const REVALIDATE = 60;
@@ -251,11 +251,68 @@ export async function getPostBySlug(slug: string): Promise<Post | undefined> {
 }
 
 export async function getPostSlugs(): Promise<string[]> {
-  const result = await getAllPosts(1);
-  return result.data.map((p) => p.slug);
+  const slugs: string[] = [];
+  let page = 1;
+  let totalPages = 1;
+
+  do {
+    const result = await getAllPosts(page);
+    slugs.push(...result.data.map((p) => p.slug));
+    totalPages = result.pagination.totalPages;
+    page++;
+  } while (page <= totalPages);
+
+  return slugs;
+}
+
+export interface AdjacentPosts {
+  prev: Pick<Post, "title" | "slug"> | null;
+  next: Pick<Post, "title" | "slug"> | null;
+}
+
+export async function getAdjacentPosts(slug: string): Promise<AdjacentPosts> {
+  const data = await apiFetch<AdjacentPosts>(`/api/posts/${slug}/adjacent`);
+  return data || { prev: null, next: null };
 }
 
 export async function getRelatedPosts(slug: string): Promise<Post[]> {
   const data = await apiFetch<Post[]>(`/api/posts/${slug}/related`);
   return data || [];
+}
+
+// --- Comments ---
+
+export async function getCommentsByPost(postSlug: string): Promise<Comment[]> {
+  try {
+    const res = await fetch(`${API_URL}/api/comments/post/${postSlug}`, {
+      cache: "no-store",
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data as Comment[];
+  } catch {
+    return [];
+  }
+}
+
+// --- Itineraries ---
+
+export async function getPublicItinerary(slug: string): Promise<Itinerary | undefined> {
+  const data = await apiFetch<Itinerary>(`/api/itineraries/${slug}`);
+  return data || undefined;
+}
+
+// --- Reviews ---
+
+export async function getReviewsByDestination(slug: string): Promise<Review[]> {
+  try {
+    const res = await fetch(`${API_URL}/api/reviews/destination/${slug}`, {
+      cache: "no-store",
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data as Review[];
+  } catch {
+    return [];
+  }
 }

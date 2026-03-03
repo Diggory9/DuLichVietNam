@@ -12,6 +12,23 @@ declare global {
   }
 }
 
+export async function optionalAuth(req: Request, _res: Response, next: NextFunction) {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return next();
+    }
+
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, env.jwtSecret) as { id: string };
+    const user = await User.findById(decoded.id);
+    if (user) req.user = user;
+  } catch {
+    // Ignore token errors, just proceed without user
+  }
+  next();
+}
+
 export async function auth(req: Request, _res: Response, next: NextFunction) {
   try {
     const authHeader = req.headers.authorization;

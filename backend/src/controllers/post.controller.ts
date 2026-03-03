@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { Post } from "../models/Post";
+import { User } from "../models/User";
+import { Notification } from "../models/Notification";
 import { AppError } from "../middleware/errorHandler";
 
 export async function getAllPosts(
@@ -91,6 +93,44 @@ export async function getRelatedPosts(
   }
 }
 
+export async function getAdjacentPosts(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const current = await Post.findOne({
+      slug: req.params.slug,
+      published: true,
+    }).select("publishedAt");
+
+    if (!current) {
+      throw new AppError("Không tìm thấy bài viết", 404);
+    }
+
+    const [prev, next_] = await Promise.all([
+      Post.findOne({
+        published: true,
+        publishedAt: { $gt: current.publishedAt },
+      })
+        .sort({ publishedAt: 1 })
+        .select("title slug")
+        .limit(1),
+      Post.findOne({
+        published: true,
+        publishedAt: { $lt: current.publishedAt },
+      })
+        .sort({ publishedAt: -1 })
+        .select("title slug")
+        .limit(1),
+    ]);
+
+    res.json({ success: true, data: { prev: prev || null, next: next_ || null } });
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function getLatestPosts(
   _req: Request,
   res: Response,
@@ -133,6 +173,26 @@ export async function createPost(
       data.publishedAt = new Date();
     }
     const post = await Post.create(data);
+
+    // Create notifications for all users when post is published
+    if (post.published) {
+      try {
+        const users = await User.find().select("_id");
+        const notifications = users.map((u) => ({
+          userId: u._id,
+          type: "new_post" as const,
+          title: "Bài viết mới",
+          message: post.title,
+          link: `/bai-viet/${post.slug}`,
+        }));
+        if (notifications.length > 0) {
+          await Notification.insertMany(notifications);
+        }
+      } catch {
+        // Don't fail post creation if notification fails
+      }
+    }
+
     res.status(201).json({ success: true, data: post });
   } catch (err) {
     next(err);
@@ -155,12 +215,75 @@ export async function updatePost(
       data.publishedAt = new Date();
     }
 
+    const wasPublished = existing.published;
     const post = await Post.findOneAndUpdate(
       { slug: req.params.slug },
       data,
       { new: true, runValidators: true }
     );
+
+    // Notify users when a post is newly published
+    if (!wasPublished && data.published && post) {
+      try {
+        const users = await User.find().select("_id");
+        const notifications = users.map((u) => ({
+          userId: u._id,
+          type: "new_post" as const,
+          title: "Bài viết mới",
+          message: post.title,
+          link: `/bai-viet/${post.slug}`,
+        }));
+        if (notifications.length > 0) {
+          await Notification.insertMany(notifications);
+        }
+      } catch {
+        // Don't fail post update if notification fails
+      }
+    }
+
     res.json({ success: true, data: post });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function bulkUpdatePosts(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { slugs, action } = req.body as { slugs: string[]; action: string };
+    if (!slugs || !Array.isArray(slugs) || slugs.length === 0) {
+      throw new AppError("Danh sách bài viết trống", 400);
+    }
+
+    let result;
+    switch (action) {
+      case "publish":
+        result = await Post.updateMany(
+          { slug: { $in: slugs } },
+          { published: true, publishedAt: new Date() }
+        );
+        break;
+      case "unpublish":
+        result = await Post.updateMany(
+          { slug: { $in: slugs } },
+          { published: false }
+        );
+        break;
+      case "delete":
+        result = await Post.deleteMany({ slug: { $in: slugs } });
+        break;
+      default:
+        throw new AppError("Action không hợp lệ", 400);
+    }
+
+    const count = "modifiedCount" in result ? result.modifiedCount : "deletedCount" in result ? result.deletedCount : 0;
+    res.json({
+      success: true,
+      message: `Đã ${action} ${count} bài viết`,
+    });
   } catch (err) {
     next(err);
   }

@@ -4,6 +4,8 @@ import DestinationHero from "@/components/destination/DestinationHero";
 import DestinationInfo from "@/components/destination/DestinationInfo";
 import LocationMap from "@/components/destination/LocationMap";
 import RelatedDestinations from "@/components/destination/RelatedDestinations";
+import ReviewSection from "@/components/destination/ReviewSection";
+import Container from "@/components/ui/Container";
 import JsonLd from "@/components/shared/JsonLd";
 import {
   getDestinationBySlug,
@@ -11,6 +13,7 @@ import {
   getProvinceBySlug,
   getRelatedDestinations,
   getSiteConfig,
+  getReviewsByDestination,
 } from "@/lib/data";
 
 interface Props {
@@ -49,6 +52,7 @@ export default async function DestinationPage({ params }: Props) {
 
   const related = await getRelatedDestinations(slug);
   const site = await getSiteConfig();
+  const reviews = await getReviewsByDestination(slug);
 
   return (
     <>
@@ -75,8 +79,11 @@ export default async function DestinationPage({ params }: Props) {
             : undefined,
         }}
       />
-      <DestinationHero destination={destination} province={province} />
+      <DestinationHero destination={destination} province={province} siteUrl={site.url} />
       <DestinationInfo destination={destination} />
+      <Container>
+        <ReviewSection destinationSlug={slug} initialReviews={reviews} />
+      </Container>
       {destination.coordinates && (
         <LocationMap
           coordinates={destination.coordinates}

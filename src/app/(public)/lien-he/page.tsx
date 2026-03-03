@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const contactInfo = [
-  { icon: "📧", label: "Email", value: "contact@dulichvietnam.vn" },
+  { icon: "📧", label: "Email", value: "khacthe19910@gmail.com" },
   { icon: "📍", label: "Địa chỉ", value: "Việt Nam" },
   { icon: "🕐", label: "Giờ làm việc", value: "Thứ 2 – Thứ 6, 9:00 – 17:00" },
 ];

@@ -12,7 +12,7 @@ interface BreadcrumbProps {
 export default function Breadcrumb({ items }: BreadcrumbProps) {
   return (
     <nav aria-label="Breadcrumb" className="py-4">
-      <ol className="flex items-center gap-2 text-sm text-gray-500 flex-wrap">
+      <ol className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 flex-wrap">
         <li>
           <Link href="/" className="hover:text-primary-600 transition-colors">
             Trang chủ
@@ -26,7 +26,7 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
                 {item.label}
               </Link>
             ) : (
-              <span className="text-gray-900 font-medium">{item.label}</span>
+              <span className="text-gray-900 dark:text-gray-100 font-medium">{item.label}</span>
             )}
           </li>
         ))}

@@ -7,6 +7,9 @@ export const metadata = {
   title: "Khám phá địa danh | Du Lịch Việt Nam",
   description:
     "Tìm kiếm và khám phá các địa danh du lịch trên khắp Việt Nam theo danh mục, vùng miền và tỉnh thành.",
+  alternates: {
+    canonical: "/kham-pha",
+  },
 };
 
 export default function KhamPhaPage() {

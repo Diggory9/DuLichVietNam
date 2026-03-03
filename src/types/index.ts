@@ -48,6 +48,8 @@ export interface Destination {
   tags: string[];
   featured: boolean;
   order: number;
+  averageRating?: number;
+  reviewCount?: number;
 }
 
 export interface SiteConfig {
@@ -146,4 +148,73 @@ export const POST_CATEGORY_LABELS: Record<PostCategory, string> = {
 export interface PaginatedResponse<T> {
   data: T[];
   pagination: PaginationInfo;
+}
+
+// --- Contact ---
+
+export interface Contact {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  read: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// --- Comment ---
+
+export interface Comment {
+  id: string;
+  postSlug: string;
+  name: string;
+  content: string;
+  createdAt: string;
+}
+
+// --- Review ---
+
+export interface Review {
+  id: string;
+  destinationSlug: string;
+  name: string;
+  rating: number;
+  content?: string;
+  createdAt: string;
+}
+
+// --- Itinerary ---
+
+export interface ItineraryDay {
+  dayNumber: number;
+  destinationSlugs: string[];
+  notes?: string;
+}
+
+export interface Itinerary {
+  id: string;
+  userId: string;
+  title: string;
+  slug: string;
+  description?: string;
+  days: ItineraryDay[];
+  isPublic: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// --- Notification ---
+
+export type NotificationType = "new_post" | "comment_reply" | "review_reply" | "system";
+
+export interface Notification {
+  id: string;
+  userId: string;
+  type: NotificationType;
+  title: string;
+  message: string;
+  link?: string;
+  read: boolean;
+  createdAt: string;
 }

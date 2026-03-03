@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { fetchDestinations, deleteDestination } from "@/lib/admin-api";
+import { useToast } from "@/components/ui/ToastProvider";
 
 const CATEGORY_LABELS: Record<string, string> = {
   "thien-nhien": "Thiên nhiên",
@@ -19,6 +20,7 @@ export default function AdminDestinationsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     fetchDestinations()
@@ -32,8 +34,9 @@ export default function AdminDestinationsPage() {
     try {
       await deleteDestination(slug);
       setDestinations((prev) => prev.filter((d) => d.slug !== slug));
+      toast("Đã xoá địa danh", { variant: "success" });
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Lỗi xoá");
+      toast(err instanceof Error ? err.message : "Lỗi xoá", { variant: "error" });
     }
   }
 

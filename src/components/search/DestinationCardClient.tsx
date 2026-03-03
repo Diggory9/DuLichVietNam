@@ -4,6 +4,9 @@ import Link from "next/link";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import ImageWithFallback from "@/components/shared/ImageWithFallback";
+import FavoriteButton from "@/components/favorites/FavoriteButton";
+import AddToItineraryButton from "@/components/itinerary/AddToItineraryButton";
+import StarRating from "@/components/shared/StarRating";
 import type { Destination } from "@/types";
 import { CATEGORY_LABELS } from "@/types";
 
@@ -30,6 +33,10 @@ export default function DestinationCardClient({
               {CATEGORY_LABELS[destination.category]}
             </Badge>
           </div>
+          <div className="absolute top-3 right-3 flex items-center gap-1.5">
+            <AddToItineraryButton destinationSlug={destination.slug} size="sm" />
+            <FavoriteButton slug={destination.slug} size="sm" />
+          </div>
         </div>
         <div className="p-5">
           <h3 className="text-base font-bold text-gray-900 tracking-tight group-hover:text-primary-600 transition-colors">
@@ -38,11 +45,19 @@ export default function DestinationCardClient({
           <p className="mt-2 text-gray-500 text-sm leading-relaxed line-clamp-2">
             {destination.description}
           </p>
-          {destination.entryFee && (
-            <p className="mt-3 text-sm text-emerald-600 font-semibold">
-              {destination.entryFee}
-            </p>
-          )}
+          <div className="mt-3 flex items-center justify-between">
+            {destination.entryFee && (
+              <p className="text-sm text-emerald-600 font-semibold">
+                {destination.entryFee}
+              </p>
+            )}
+            {(destination.reviewCount ?? 0) > 0 && (
+              <div className="flex items-center gap-1.5 text-sm text-gray-500">
+                <StarRating rating={destination.averageRating ?? 0} size="sm" />
+                <span>({destination.reviewCount})</span>
+              </div>
+            )}
+          </div>
         </div>
       </Card>
     </Link>

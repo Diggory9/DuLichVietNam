@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --color-primary-50: #eff6ff;
@@ -41,6 +42,11 @@
     background-color: #ffffff;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  .dark body {
+    color: #e5e7eb;
+    background-color: #0f172a;
   }
 
   @media (prefers-reduced-motion: reduce) {

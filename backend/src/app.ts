@@ -15,6 +15,14 @@ import siteConfigRoutes from "./routes/siteConfig.routes";
 import authRoutes from "./routes/auth.routes";
 import uploadRoutes from "./routes/upload.routes";
 import postRoutes from "./routes/post.routes";
+import contactRoutes from "./routes/contact.routes";
+import commentRoutes from "./routes/comment.routes";
+import reviewRoutes from "./routes/review.routes";
+import userRoutes from "./routes/user.routes";
+import itineraryRoutes from "./routes/itinerary.routes";
+import newsletterRoutes from "./routes/newsletter.routes";
+import notificationRoutes from "./routes/notification.routes";
+import adminUserRoutes from "./routes/admin-user.routes";
 
 const app = express();
 
@@ -36,6 +44,14 @@ app.use("/api/site-config", siteConfigRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/contacts", contactRoutes);
+app.use("/api/comments", commentRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/itineraries", itineraryRoutes);
+app.use("/api/newsletter", newsletterRoutes);
+app.use("/api/notifications", notificationRoutes);
+app.use("/api/admin/users", adminUserRoutes);
 
 // Health check
 app.get("/api/health", (_req, res) => {

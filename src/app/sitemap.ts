@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getProvinceSlugs, getDestinationSlugs, getSiteConfig } from "@/lib/data";
+import { getProvinceSlugs, getDestinationSlugs, getPostSlugs, getSiteConfig } from "@/lib/data";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const site = await getSiteConfig();
@@ -7,6 +7,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
+    { url: `${baseUrl}/kham-pha`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
+    { url: `${baseUrl}/bai-viet`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
+    { url: `${baseUrl}/ban-do`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
+    { url: `${baseUrl}/yeu-thich`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.4 },
     { url: `${baseUrl}/ve-chung-toi`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
     { url: `${baseUrl}/lien-he`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
   ];
@@ -27,5 +31,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...provincePages, ...destinationPages];
+  const postSlugs = await getPostSlugs();
+  const postPages: MetadataRoute.Sitemap = postSlugs.map((slug) => ({
+    url: `${baseUrl}/bai-viet/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.6,
+  }));
+
+  return [...staticPages, ...provincePages, ...destinationPages, ...postPages];
 }

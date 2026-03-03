@@ -55,6 +55,19 @@ export default async function ProvincePage({ params }: Props) {
           description: province.description,
           url: `${site.url}/tinh/${province.slug}`,
           image: province.heroImage,
+          ...(destinations.some((d) => d.coordinates) && {
+            geo: {
+              "@type": "GeoCoordinates",
+              latitude: destinations.filter((d) => d.coordinates).reduce((sum, d) => sum + d.coordinates!.lat, 0) / destinations.filter((d) => d.coordinates).length || 0,
+              longitude: destinations.filter((d) => d.coordinates).reduce((sum, d) => sum + d.coordinates!.lng, 0) / destinations.filter((d) => d.coordinates).length || 0,
+            },
+          }),
+          containsPlace: destinations.map((d) => ({
+            "@type": "TouristAttraction",
+            name: d.name,
+            url: `${site.url}/dia-danh/${d.slug}`,
+          })),
+          numberOfItems: destinations.length,
         }}
       />
       <ProvinceHero province={province} />

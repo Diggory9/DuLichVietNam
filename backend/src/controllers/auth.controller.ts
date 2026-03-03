@@ -34,6 +34,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
           username: user.username,
           email: user.email,
           role: user.role,
+          displayName: user.displayName,
         },
       },
     });
@@ -42,7 +43,51 @@ export async function login(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+// Public registration - creates user with role "user"
 export async function register(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { username, email, password } = req.body;
+
+    if (!username || !email || !password) {
+      throw new AppError("Vui lòng nhập đầy đủ thông tin", 400);
+    }
+
+    if (password.length < 6) {
+      throw new AppError("Mật khẩu phải có ít nhất 6 ký tự", 400);
+    }
+
+    const existing = await User.findOne({ $or: [{ username }, { email }] });
+    if (existing) {
+      throw new AppError("Tên đăng nhập hoặc email đã tồn tại", 400);
+    }
+
+    const user = await User.create({ username, email, password, role: "user" });
+    const token = signToken(user._id.toString());
+
+    res.status(201).json({
+      success: true,
+      data: {
+        token,
+        user: {
+          id: user._id.toString(),
+          username: user.username,
+          email: user.email,
+          role: user.role,
+          displayName: user.displayName,
+        },
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+// Admin-only: create admin accounts
+export async function adminRegister(
   req: Request,
   res: Response,
   next: NextFunction

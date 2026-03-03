@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { fetchProvinces, deleteProvince } from "@/lib/admin-api";
+import { useToast } from "@/components/ui/ToastProvider";
 
 const REGION_LABELS: Record<string, string> = {
   "mien-bac": "Miền Bắc",
@@ -16,6 +17,7 @@ export default function AdminProvincesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     loadData();
@@ -37,8 +39,9 @@ export default function AdminProvincesPage() {
     try {
       await deleteProvince(slug);
       setProvinces((prev) => prev.filter((p) => p.slug !== slug));
+      toast("Đã xoá tỉnh", { variant: "success" });
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Lỗi xoá tỉnh");
+      toast(err instanceof Error ? err.message : "Lỗi xoá tỉnh", { variant: "error" });
     }
   }
 

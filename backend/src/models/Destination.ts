@@ -31,6 +31,8 @@ export interface IDestination extends Document {
   tags: string[];
   featured: boolean;
   order: number;
+  averageRating: number;
+  reviewCount: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -77,6 +79,8 @@ const destinationSchema = new Schema<IDestination>(
     tags: [{ type: String }],
     featured: { type: Boolean, default: false },
     order: { type: Number, default: 0 },
+    averageRating: { type: Number, default: 0 },
+    reviewCount: { type: Number, default: 0 },
   },
   {
     timestamps: true,
