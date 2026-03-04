@@ -34,6 +34,7 @@ export default function DestinationForm({ initialData, onSubmit, isEdit }: Desti
     lng: ((initialData?.coordinates as { lng?: number })?.lng || "").toString(),
     openingHours: (initialData?.openingHours as string) || "",
     entryFee: (initialData?.entryFee as string) || "",
+    entryFeeValue: initialData?.entryFeeValue != null ? String(initialData.entryFeeValue) : "",
     bestTimeToVisit: (initialData?.bestTimeToVisit as string) || "",
     tips: ((initialData?.tips as string[]) || []).join("\n"),
     tags: ((initialData?.tags as string[]) || []).join(", "),
@@ -85,6 +86,7 @@ export default function DestinationForm({ initialData, onSubmit, isEdit }: Desti
       const data = {
         ...form,
         order: Number(form.order),
+        entryFeeValue: form.entryFeeValue !== "" ? Number(form.entryFeeValue) : null,
         coordinates,
         images: images.filter((img) => img.src),
         tips: form.tips.split("\n").map((s) => s.trim()).filter(Boolean),
@@ -221,6 +223,10 @@ export default function DestinationForm({ initialData, onSubmit, isEdit }: Desti
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Phí vào cửa</label>
             <input name="entryFee" value={form.entryFee} onChange={handleChange} className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-primary-500 outline-none" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Giá vé (VNĐ)</label>
+            <input name="entryFeeValue" type="number" min="0" value={form.entryFeeValue} onChange={handleChange} placeholder="0 = miễn phí, trống = không rõ" className="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-primary-500 outline-none" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Thời gian tốt nhất</label>

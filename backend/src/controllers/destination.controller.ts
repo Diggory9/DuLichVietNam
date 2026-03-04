@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { Destination } from "../models/Destination";
 import { Province } from "../models/Province";
 import { AppError } from "../middleware/errorHandler";
+import { haversineDistance } from "../utils/distance";
 
 export async function getAllDestinations(
   _req: Request,
@@ -154,6 +155,11 @@ export async function searchDestinations(
       sort = "order",
       page = "1",
       limit = "12",
+      minRating,
+      priceRange,
+      nearLat,
+      nearLng,
+      maxDistance,
     } = req.query as Record<string, string>;
 
     const filter: Record<string, unknown> = {};
@@ -179,7 +185,45 @@ export async function searchDestinations(
     if (region) {
       const provinces = await Province.find({ region }).select("slug");
       const provinceSlugs = provinces.map((p) => p.slug);
-      filter.provinceSlug = { ...(filter.provinceSlug ? {} : {}), $in: provinceSlugs };
+      filter.provinceSlug = { $in: provinceSlugs };
+    }
+
+    // Rating filter
+    if (minRating) {
+      const rating = parseFloat(minRating);
+      if (!isNaN(rating) && rating >= 1 && rating <= 5) {
+        filter.averageRating = { $gte: rating };
+      }
+    }
+
+    // Price range filter
+    if (priceRange) {
+      switch (priceRange) {
+        case "free":
+          filter.entryFeeValue = 0;
+          break;
+        case "under100k":
+          filter.entryFeeValue = { $gt: 0, $lt: 100000 };
+          break;
+        case "100k-500k":
+          filter.entryFeeValue = { $gte: 100000, $lte: 500000 };
+          break;
+        case "over500k":
+          filter.entryFeeValue = { $gt: 500000 };
+          break;
+      }
+    }
+
+    // Distance bounding box filter
+    const userLat = nearLat ? parseFloat(nearLat) : NaN;
+    const userLng = nearLng ? parseFloat(nearLng) : NaN;
+    const maxDist = maxDistance ? parseFloat(maxDistance) : NaN;
+
+    if (!isNaN(userLat) && !isNaN(userLng) && !isNaN(maxDist)) {
+      const latDelta = maxDist / 111;
+      const lngDelta = maxDist / (111 * Math.cos((userLat * Math.PI) / 180));
+      filter["coordinates.lat"] = { $gte: userLat - latDelta, $lte: userLat + latDelta };
+      filter["coordinates.lng"] = { $gte: userLng - lngDelta, $lte: userLng + lngDelta };
     }
 
     const sortOptions: Record<string, Record<string, 1 | -1>> = {
@@ -187,10 +231,40 @@ export async function searchDestinations(
       name: { name: 1 },
       newest: { createdAt: -1 },
       featured: { featured: -1, order: 1 },
+      rating: { averageRating: -1, reviewCount: -1 },
     };
 
     const pageNum = Math.max(1, parseInt(page));
     const limitNum = Math.min(50, Math.max(1, parseInt(limit)));
+
+    // Distance sort: fetch all matching, sort by distance, then paginate
+    if (sort === "distance" && !isNaN(userLat) && !isNaN(userLng)) {
+      const allMatching = await Destination.find(filter);
+      const withDistance = allMatching
+        .filter((d) => d.coordinates?.lat && d.coordinates?.lng)
+        .map((d) => ({
+          doc: d,
+          distance: haversineDistance(userLat, userLng, d.coordinates!.lat, d.coordinates!.lng),
+        }))
+        .filter((item) => !isNaN(maxDist) ? item.distance <= maxDist : true)
+        .sort((a, b) => a.distance - b.distance);
+
+      const total = withDistance.length;
+      const skip = (pageNum - 1) * limitNum;
+      const paginated = withDistance.slice(skip, skip + limitNum).map((item) => item.doc);
+
+      return res.json({
+        success: true,
+        data: paginated,
+        pagination: {
+          page: pageNum,
+          limit: limitNum,
+          total,
+          totalPages: Math.ceil(total / limitNum),
+        },
+      });
+    }
+
     const skip = (pageNum - 1) * limitNum;
 
     const [destinations, total] = await Promise.all([

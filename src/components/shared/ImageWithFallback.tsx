@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn, getCloudinaryBlurUrl } from "@/lib/utils";
 
 interface ImageWithFallbackProps {
   src: string;
@@ -55,6 +55,8 @@ export default function ImageWithFallback({
     );
   }
 
+  const blurUrl = getCloudinaryBlurUrl(src);
+
   return (
     <Image
       src={src}
@@ -62,8 +64,10 @@ export default function ImageWithFallback({
       fill={fill}
       className={cn("object-cover", className)}
       priority={priority}
+      loading={priority ? undefined : "lazy"}
       sizes={sizes}
       onError={() => setError(true)}
+      {...(blurUrl ? { placeholder: "blur" as const, blurDataURL: blurUrl } : {})}
       {...props}
     />
   );

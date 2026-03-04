@@ -1,4 +1,4 @@
-import type { Province, Destination, SiteConfig, SearchParams, SearchResult, QuickSearchResult, Post, PaginatedResponse, Comment, Review, Itinerary } from "@/types";
+import type { Province, Destination, SiteConfig, SearchParams, SearchResult, QuickSearchResult, Post, PaginatedResponse, Comment, Review, Itinerary, Story } from "@/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 const REVALIDATE = 60;
@@ -303,6 +303,34 @@ export async function getPublicItinerary(slug: string): Promise<Itinerary | unde
 }
 
 // --- Reviews ---
+
+// --- Stories ---
+
+export async function getApprovedStories(
+  page: number = 1,
+  destinationSlug?: string
+): Promise<PaginatedResponse<Story>> {
+  try {
+    const query = new URLSearchParams({ page: String(page), limit: "12" });
+    if (destinationSlug) query.set("destinationSlug", destinationSlug);
+    const res = await fetch(`${API_URL}/api/stories?${query}`, {
+      next: { revalidate: REVALIDATE },
+    });
+    if (!res.ok) throw new Error();
+    const json = await res.json();
+    return { data: json.data, pagination: json.pagination };
+  } catch {
+    return {
+      data: [],
+      pagination: { page: 1, limit: 12, total: 0, totalPages: 0 },
+    };
+  }
+}
+
+export async function getStoryBySlug(slug: string): Promise<Story | undefined> {
+  const data = await apiFetch<Story>(`/api/stories/${slug}`);
+  return data || undefined;
+}
 
 export async function getReviewsByDestination(slug: string): Promise<Review[]> {
   try {

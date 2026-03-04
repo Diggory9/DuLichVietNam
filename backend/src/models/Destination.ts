@@ -27,6 +27,7 @@ export interface IDestination extends Document {
   coordinates?: { lat: number; lng: number };
   openingHours?: string;
   entryFee?: string;
+  entryFeeValue?: number;
   bestTimeToVisit?: string;
   tags: string[];
   featured: boolean;
@@ -75,6 +76,7 @@ const destinationSchema = new Schema<IDestination>(
     },
     openingHours: { type: String },
     entryFee: { type: String },
+    entryFeeValue: { type: Number, default: null },
     bestTimeToVisit: { type: String },
     tags: [{ type: String }],
     featured: { type: Boolean, default: false },

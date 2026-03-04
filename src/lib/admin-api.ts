@@ -366,6 +366,30 @@ export async function bulkDeleteComments(ids: string[]) {
   return data;
 }
 
+// --- Stories (Admin) ---
+
+export async function fetchAdminStories(page = 1, status?: string) {
+  const params = new URLSearchParams({ page: String(page) });
+  if (status) params.set("status", status);
+  const res = await fetch(`${API_URL}/api/admin/stories?${params}`, {
+    headers: authHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Lỗi");
+  return { stories: data.data, pagination: data.pagination };
+}
+
+export async function updateStoryStatus(id: string, status: "approved" | "rejected") {
+  const res = await fetch(`${API_URL}/api/admin/stories/${id}/status`, {
+    method: "PATCH",
+    headers: authHeaders(),
+    body: JSON.stringify({ status }),
+  });
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
+}
+
 // --- Stats ---
 
 export async function fetchDetailedStats() {

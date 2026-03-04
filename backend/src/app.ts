@@ -23,6 +23,7 @@ import itineraryRoutes from "./routes/itinerary.routes";
 import newsletterRoutes from "./routes/newsletter.routes";
 import notificationRoutes from "./routes/notification.routes";
 import adminUserRoutes from "./routes/admin-user.routes";
+import storyRoutes, { adminStoryRouter } from "./routes/story.routes";
 
 const app = express();
 
@@ -52,6 +53,8 @@ app.use("/api/itineraries", itineraryRoutes);
 app.use("/api/newsletter", newsletterRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/admin/users", adminUserRoutes);
+app.use("/api/stories", storyRoutes);
+app.use("/api/admin/stories", adminStoryRouter);
 
 // Health check
 app.get("/api/health", (_req, res) => {

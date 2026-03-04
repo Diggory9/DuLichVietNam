@@ -12,6 +12,7 @@ const navItems = [
   { href: "/admin/contacts", label: "Liên hệ", icon: "📬" },
   { href: "/admin/comments", label: "Bình luận", icon: "💬" },
   { href: "/admin/reviews", label: "Đánh giá", icon: "⭐" },
+  { href: "/admin/stories", label: "Câu chuyện", icon: "📖" },
   { href: "/admin/newsletter", label: "Newsletter", icon: "📧" },
   { href: "/admin/users", label: "Người dùng", icon: "👥" },
   { href: "/admin/site-config", label: "Cấu hình", icon: "⚙️" },

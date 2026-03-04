@@ -90,6 +90,11 @@ export interface SearchParams {
   sort?: string;
   page?: string;
   limit?: string;
+  minRating?: string;
+  priceRange?: string;
+  nearLat?: string;
+  nearLng?: string;
+  maxDistance?: string;
 }
 
 export interface PaginationInfo {
@@ -202,6 +207,39 @@ export interface Itinerary {
   isPublic: boolean;
   createdAt: string;
   updatedAt: string;
+}
+
+// --- Story (User-Generated Content) ---
+
+export interface StoryPhoto {
+  src: string;
+  caption?: string;
+}
+
+export interface Story {
+  id: string;
+  userId: string;
+  authorName: string;
+  destinationSlug?: string;
+  title: string;
+  slug: string;
+  content: string;
+  photos: StoryPhoto[];
+  visitDate?: string;
+  rating?: number;
+  status: "pending" | "approved" | "rejected";
+  likes: string[];
+  likeCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface GalleryPhoto {
+  src: string;
+  caption?: string;
+  storyTitle: string;
+  storySlug: string;
+  authorName: string;
 }
 
 // --- Notification ---

@@ -3,3 +3,4 @@ export { Destination, type IDestination, type IDestinationImage } from "./Destin
 export { SiteConfig, type ISiteConfig } from "./SiteConfig";
 export { User, type IUser } from "./User";
 export { Post, type IPost } from "./Post";
+export { Story, type IStory, type IStoryPhoto } from "./Story";
