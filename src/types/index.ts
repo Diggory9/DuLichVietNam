@@ -195,6 +195,10 @@ export interface ItineraryDay {
   dayNumber: number;
   destinationSlugs: string[];
   notes?: string;
+  accommodationCost?: number;
+  transportCost?: number;
+  mealCost?: number;
+  otherCost?: number;
 }
 
 export interface Itinerary {
@@ -205,6 +209,7 @@ export interface Itinerary {
   description?: string;
   days: ItineraryDay[];
   isPublic: boolean;
+  totalBudget?: number;
   createdAt: string;
   updatedAt: string;
 }

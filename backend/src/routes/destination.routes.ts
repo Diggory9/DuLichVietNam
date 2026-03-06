@@ -11,6 +11,8 @@ import {
   deleteDestination,
   searchDestinations,
   quickSearch,
+  batchDestinations,
+  getRecommendations,
 } from "../controllers/destination.controller";
 import { auth } from "../middleware/auth";
 import { requireAdmin } from "../middleware/requireAdmin";
@@ -23,6 +25,8 @@ router.get("/featured", getFeaturedDestinations);
 router.get("/search", searchDestinations);
 router.get("/quick-search", quickSearch);
 router.get("/map", getDestinationsForMap);
+router.get("/recommendations", getRecommendations);
+router.post("/batch", batchDestinations);
 router.get("/by-province/:slug", getDestinationsByProvince);
 router.get("/:slug", getDestinationBySlug);
 router.get("/:slug/related", getRelatedDestinations);

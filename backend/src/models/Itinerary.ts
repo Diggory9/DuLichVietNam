@@ -4,6 +4,10 @@ export interface IItineraryDay {
   dayNumber: number;
   destinationSlugs: string[];
   notes?: string;
+  accommodationCost?: number;
+  transportCost?: number;
+  mealCost?: number;
+  otherCost?: number;
 }
 
 export interface IItinerary extends Document {
@@ -13,6 +17,7 @@ export interface IItinerary extends Document {
   description?: string;
   days: IItineraryDay[];
   isPublic: boolean;
+  totalBudget?: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -22,6 +27,10 @@ const itineraryDaySchema = new Schema<IItineraryDay>(
     dayNumber: { type: Number, required: true },
     destinationSlugs: [{ type: String }],
     notes: { type: String },
+    accommodationCost: { type: Number },
+    transportCost: { type: Number },
+    mealCost: { type: Number },
+    otherCost: { type: Number },
   },
   { _id: false }
 );
@@ -34,6 +43,7 @@ const itinerarySchema = new Schema<IItinerary>(
     description: { type: String },
     days: [itineraryDaySchema],
     isPublic: { type: Boolean, default: false },
+    totalBudget: { type: Number },
   },
   {
     timestamps: true,

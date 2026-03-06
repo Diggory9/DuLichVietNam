@@ -2,6 +2,7 @@ import HeroSection from "@/components/home/HeroSection";
 import StatsSection from "@/components/home/StatsSection";
 import ProvinceGrid from "@/components/home/ProvinceGrid";
 import FeaturedDestinations from "@/components/home/FeaturedDestinations";
+import SmartRecommendations from "@/components/recommendations/SmartRecommendations";
 import LatestPosts from "@/components/home/LatestPosts";
 import JsonLd from "@/components/shared/JsonLd";
 import { getSiteConfig } from "@/lib/data";
@@ -24,6 +25,7 @@ export default async function HomePage() {
       <StatsSection />
       <ProvinceGrid />
       <FeaturedDestinations />
+      <SmartRecommendations />
       <LatestPosts />
     </>
   );

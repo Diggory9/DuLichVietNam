@@ -7,6 +7,10 @@ export interface IUser extends Document {
   password: string;
   role: "admin" | "user";
   displayName?: string;
+  bio?: string;
+  avatar?: string;
+  isPublicProfile: boolean;
+  badges: string[];
   favorites: string[];
   createdAt: Date;
   updatedAt: Date;
@@ -20,6 +24,10 @@ const userSchema = new Schema<IUser>(
     password: { type: String, required: true, select: false },
     role: { type: String, default: "user", enum: ["admin", "user"] },
     displayName: { type: String },
+    bio: { type: String },
+    avatar: { type: String },
+    isPublicProfile: { type: Boolean, default: false },
+    badges: { type: [String], default: [] },
     favorites: { type: [String], default: [] },
   },
   {

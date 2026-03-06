@@ -316,6 +316,67 @@ export async function getDestinationsForMap(
   }
 }
 
+export async function batchDestinations(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { slugs } = req.body as { slugs: string[] };
+    if (!Array.isArray(slugs) || slugs.length === 0 || slugs.length > 4) {
+      throw new AppError("Cần cung cấp 1-4 slugs", 400);
+    }
+
+    const destinations = await Destination.find({ slug: { $in: slugs } });
+    res.json({ success: true, data: destinations });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getRecommendations(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const {
+      categories,
+      provinces,
+      excludeSlugs,
+      limit = "6",
+    } = req.query as Record<string, string>;
+
+    const filter: Record<string, unknown> = {};
+    const orConditions: Record<string, unknown>[] = [];
+
+    if (categories) {
+      orConditions.push({ category: { $in: categories.split(",") } });
+    }
+    if (provinces) {
+      orConditions.push({ provinceSlug: { $in: provinces.split(",") } });
+    }
+
+    if (orConditions.length > 0) {
+      filter.$or = orConditions;
+    }
+
+    if (excludeSlugs) {
+      filter.slug = { $nin: excludeSlugs.split(",") };
+    }
+
+    const limitNum = Math.min(20, Math.max(1, parseInt(limit)));
+
+    const destinations = await Destination.find(filter)
+      .sort({ featured: -1, averageRating: -1 })
+      .limit(limitNum);
+
+    res.json({ success: true, data: destinations });
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function quickSearch(
   req: Request,
   res: Response,

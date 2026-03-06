@@ -5,6 +5,7 @@ import DestinationInfo from "@/components/destination/DestinationInfo";
 import LocationMap from "@/components/destination/LocationMap";
 import RelatedDestinations from "@/components/destination/RelatedDestinations";
 import ReviewSection from "@/components/destination/ReviewSection";
+import ViewTracker from "@/components/destination/ViewTracker";
 import Container from "@/components/ui/Container";
 import JsonLd from "@/components/shared/JsonLd";
 import {
@@ -77,6 +78,13 @@ export default async function DestinationPage({ params }: Props) {
                 longitude: destination.coordinates.lng,
               }
             : undefined,
+        }}
+      />
+      <ViewTracker
+        destination={{
+          slug: destination.slug,
+          category: destination.category,
+          provinceSlug: destination.provinceSlug,
         }}
       />
       <DestinationHero destination={destination} province={province} siteUrl={site.url} />

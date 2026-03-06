@@ -2,6 +2,7 @@ import Container from "@/components/ui/Container";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import Badge from "@/components/ui/Badge";
 import StarRating from "@/components/shared/StarRating";
+import WeatherWidget from "@/components/weather/WeatherWidget";
 import type { Destination } from "@/types";
 
 interface DestinationInfoProps {
@@ -79,6 +80,11 @@ export default function DestinationInfo({ destination }: DestinationInfoProps) {
                   )
               )}
             </div>
+            {destination.coordinates && (
+              <div className="mt-5">
+                <WeatherWidget coordinates={destination.coordinates} />
+              </div>
+            )}
           </AnimatedSection>
         </div>
       </Container>

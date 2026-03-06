@@ -103,7 +103,11 @@ export default function SearchPageContent() {
     fetch(`${API_URL}/api/destinations/search?${query}`)
       .then((r) => r.json())
       .then((json) => {
-        setDestinations((prev) => [...prev, ...(json.data || [])]);
+        setDestinations((prev) => {
+          const existingSlugs = new Set(prev.map((d) => d.slug));
+          const newItems = (json.data || []).filter((d: Destination) => !existingSlugs.has(d.slug));
+          return [...prev, ...newItems];
+        });
         setPagination(
           json.pagination || pagination
         );
@@ -156,7 +160,7 @@ export default function SearchPageContent() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {destinations.map((d) => (
-              <DestinationCardClient key={d.id || d.slug} destination={d} />
+              <DestinationCardClient key={d.slug} destination={d} />
             ))}
           </div>
 

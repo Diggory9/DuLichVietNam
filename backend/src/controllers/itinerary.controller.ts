@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { Itinerary } from "../models/Itinerary";
 import { AppError } from "../middleware/errorHandler";
 import slugify from "../utils/slugify";
+import { checkAndAwardBadges } from "../lib/badges";
 
 export async function getMyItineraries(
   req: Request,
@@ -59,14 +60,17 @@ export async function createItinerary(
       slug = `${slug}-${Date.now()}`;
     }
 
+    const { totalBudget } = req.body;
     const itinerary = await Itinerary.create({
       userId: req.user!._id,
       title,
       slug,
       description,
       days: days || [],
+      totalBudget,
     });
 
+    checkAndAwardBadges(req.user!._id.toString()).catch(() => {});
     res.status(201).json({ success: true, data: itinerary });
   } catch (err) {
     next(err);
@@ -87,12 +91,14 @@ export async function updateItinerary(
       throw new AppError("Không có quyền sửa lộ trình này", 403);
     }
 
-    const { title, description, days } = req.body;
+    const { title, description, days, totalBudget } = req.body;
     if (title) itinerary.title = title;
     if (description !== undefined) itinerary.description = description;
     if (days) itinerary.days = days;
+    if (totalBudget !== undefined) itinerary.totalBudget = totalBudget;
 
     await itinerary.save();
+    checkAndAwardBadges(req.user!._id.toString()).catch(() => {});
     res.json({ success: true, data: itinerary });
   } catch (err) {
     next(err);
@@ -136,6 +142,7 @@ export async function togglePublic(
 
     itinerary.isPublic = !itinerary.isPublic;
     await itinerary.save();
+    checkAndAwardBadges(req.user!._id.toString()).catch(() => {});
     res.json({ success: true, data: itinerary });
   } catch (err) {
     next(err);

@@ -6,6 +6,9 @@ interface AuthUser {
   id: string;
   username: string;
   displayName?: string;
+  bio?: string;
+  avatar?: string;
+  isPublicProfile?: boolean;
   role: "admin" | "user";
 }
 
@@ -17,6 +20,7 @@ interface AuthContextType {
   register: (username: string, email: string, password: string) => Promise<void>;
   logout: () => void;
   updateDisplayName: (name: string) => void;
+  updateProfile: (fields: Partial<Pick<AuthUser, "displayName" | "bio" | "avatar" | "isPublicProfile">>) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -27,6 +31,7 @@ const AuthContext = createContext<AuthContextType>({
   register: async () => {},
   logout: () => {},
   updateDisplayName: () => {},
+  updateProfile: () => {},
 });
 
 const TOKEN_KEY = "dulichvietnam_token";
@@ -101,10 +106,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser((prev) => prev ? { ...prev, displayName: name } : null);
   }, []);
 
+  const updateProfile = useCallback((fields: Partial<Pick<AuthUser, "displayName" | "bio" | "avatar" | "isPublicProfile">>) => {
+    setUser((prev) => prev ? { ...prev, ...fields } : null);
+  }, []);
+
   if (!loaded) return null;
 
   return (
-    <AuthContext.Provider value={{ user, token, isAuthenticated: !!user, login, register, logout, updateDisplayName }}>
+    <AuthContext.Provider value={{ user, token, isAuthenticated: !!user, login, register, logout, updateDisplayName, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );

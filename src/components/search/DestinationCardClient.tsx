@@ -6,6 +6,7 @@ import Badge from "@/components/ui/Badge";
 import ImageWithFallback from "@/components/shared/ImageWithFallback";
 import FavoriteButton from "@/components/favorites/FavoriteButton";
 import AddToItineraryButton from "@/components/itinerary/AddToItineraryButton";
+import CompareButton from "@/components/compare/CompareButton";
 import StarRating from "@/components/shared/StarRating";
 import type { Destination } from "@/types";
 import { CATEGORY_LABELS } from "@/types";
@@ -34,6 +35,7 @@ export default function DestinationCardClient({
             </Badge>
           </div>
           <div className="absolute top-3 right-3 flex items-center gap-1.5">
+            <CompareButton slug={destination.slug} size="sm" />
             <AddToItineraryButton destinationSlug={destination.slug} size="sm" />
             <FavoriteButton slug={destination.slug} size="sm" />
           </div>

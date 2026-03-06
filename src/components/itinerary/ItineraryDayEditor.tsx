@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { ItineraryDay, Destination } from "@/types";
+import CostInput from "./CostInput";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -141,6 +142,9 @@ export default function ItineraryDayEditor({
         rows={2}
         className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-none"
       />
+
+      {/* Cost */}
+      <CostInput day={day} onChange={onChange} />
     </div>
   );
 }

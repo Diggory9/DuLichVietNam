@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { Story } from "../models/Story";
 import { AppError } from "../middleware/errorHandler";
 import slugify from "../utils/slugify";
+import { checkAndAwardBadges } from "../lib/badges";
 
 // Public: get approved stories with pagination
 export async function getApprovedStories(
@@ -302,6 +303,10 @@ export async function adminUpdateStatus(
     );
     if (!story) {
       throw new AppError("Không tìm thấy câu chuyện", 404);
+    }
+
+    if (status === "approved") {
+      checkAndAwardBadges(story.userId.toString()).catch(() => {});
     }
 
     res.json({ success: true, data: story });

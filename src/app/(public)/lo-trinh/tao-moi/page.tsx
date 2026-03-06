@@ -6,6 +6,7 @@ import Container from "@/components/ui/Container";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import ItineraryDayEditor from "@/components/itinerary/ItineraryDayEditor";
 import ItineraryMapPreview from "@/components/itinerary/ItineraryMapPreview";
+import CostSummary from "@/components/itinerary/CostSummary";
 import { useAuth } from "@/components/auth/AuthProvider";
 import type { ItineraryDay, Destination } from "@/types";
 
@@ -16,6 +17,7 @@ export default function CreateItineraryPage() {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [totalBudget, setTotalBudget] = useState<number | undefined>();
   const [days, setDays] = useState<ItineraryDay[]>([
     { dayNumber: 1, destinationSlugs: [] },
   ]);
@@ -88,7 +90,7 @@ export default function CreateItineraryPage() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ title, description, days }),
+        body: JSON.stringify({ title, description, days, totalBudget }),
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.message || "Lỗi tạo lộ trình");
@@ -151,6 +153,22 @@ export default function CreateItineraryPage() {
               />
             </div>
 
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Ngân sách dự kiến (VND)
+              </label>
+              <input
+                type="text"
+                value={totalBudget ? totalBudget.toLocaleString("vi-VN") : ""}
+                onChange={(e) => {
+                  const num = parseInt(e.target.value.replace(/\D/g, ""), 10);
+                  setTotalBudget(isNaN(num) ? undefined : num);
+                }}
+                placeholder="Ví dụ: 5,000,000"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              />
+            </div>
+
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-gray-900">
@@ -174,6 +192,13 @@ export default function CreateItineraryPage() {
                 />
               ))}
             </div>
+
+            {/* Cost Summary */}
+            <CostSummary
+              days={days}
+              destinations={destinations}
+              totalBudget={totalBudget}
+            />
 
             <button
               onClick={handleSave}

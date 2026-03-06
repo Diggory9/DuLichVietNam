@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ItineraryMapPreview from "@/components/itinerary/ItineraryMapPreview";
+import CostSummary from "@/components/itinerary/CostSummary";
 import { useAuth } from "@/components/auth/AuthProvider";
 import type { Itinerary, Destination } from "@/types";
 
@@ -145,12 +146,17 @@ export default function ItineraryDetailClient({ itinerary, destinations }: Props
           })}
         </div>
 
-        {/* Map */}
-        <div className="lg:sticky lg:top-24 lg:self-start">
+        {/* Right: Map + Cost */}
+        <div className="lg:sticky lg:top-24 lg:self-start space-y-4">
           <ItineraryMapPreview
             days={itinerary.days}
             destinations={destinations}
             className="h-[400px] lg:h-[500px] w-full"
+          />
+          <CostSummary
+            days={itinerary.days}
+            destinations={destinations}
+            totalBudget={itinerary.totalBudget}
           />
         </div>
       </div>
