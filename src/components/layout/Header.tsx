@@ -9,6 +9,8 @@ import ThemeToggle from "@/components/ui/ThemeToggle";
 const navLinks = [
   { href: "/", label: "Trang chủ" },
   { href: "/kham-pha", label: "Khám phá" },
+  { href: "/khach-san", label: "Khách sạn" },
+  { href: "/tour", label: "Tour" },
   { href: "/cau-chuyen", label: "Câu chuyện" },
   { href: "/bai-viet", label: "Bài viết" },
   { href: "/ban-do", label: "Bản đồ" },

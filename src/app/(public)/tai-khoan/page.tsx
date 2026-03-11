@@ -199,6 +199,22 @@ export default function AccountPage() {
             </form>
           </div>
 
+          {/* Bookings */}
+          <div className="rounded-xl border border-gray-100 dark:border-gray-700 p-6 mb-6">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+              Đặt chỗ
+            </h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+              Xem và quản lý các đặt phòng khách sạn và tour du lịch của bạn.
+            </p>
+            <Link
+              href="/dat-phong"
+              className="inline-block px-5 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors"
+            >
+              Xem đặt chỗ của tôi
+            </Link>
+          </div>
+
           {/* Badges */}
           <div className="rounded-xl border border-gray-100 p-6 mb-6">
             <h2 className="text-lg font-bold text-gray-900 mb-4">

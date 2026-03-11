@@ -24,6 +24,11 @@ import newsletterRoutes from "./routes/newsletter.routes";
 import notificationRoutes from "./routes/notification.routes";
 import adminUserRoutes from "./routes/admin-user.routes";
 import storyRoutes, { adminStoryRouter } from "./routes/story.routes";
+import hotelRoutes from "./routes/hotel.routes";
+import tourRoutes from "./routes/tour.routes";
+import bookingRoutes from "./routes/booking.routes";
+import paymentRoutes from "./routes/payment.routes";
+import roomInventoryRoutes from "./routes/room-inventory.routes";
 
 const app = express();
 
@@ -55,6 +60,11 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/admin/users", adminUserRoutes);
 app.use("/api/stories", storyRoutes);
 app.use("/api/admin/stories", adminStoryRouter);
+app.use("/api/hotels", hotelRoutes);
+app.use("/api/tours", tourRoutes);
+app.use("/api/bookings", bookingRoutes);
+app.use("/api/payments", paymentRoutes);
+app.use("/api/room-inventory", roomInventoryRoutes);
 
 // Health check
 app.get("/api/health", (_req, res) => {

@@ -15,6 +15,9 @@ interface Stats {
   unreadContacts: number;
   comments: number;
   reviews: number;
+  hotels: number;
+  tours: number;
+  bookings: number;
 }
 
 export default function AdminDashboard() {
@@ -76,6 +79,9 @@ export default function AdminDashboard() {
             { label: "Liên hệ chưa đọc", value: stats.unreadContacts, icon: "📬", href: "/admin/contacts" },
             { label: "Bình luận", value: stats.comments, icon: "💬", href: "/admin/comments" },
             { label: "Đánh giá", value: stats.reviews, icon: "⭐", href: "/admin/reviews" },
+            { label: "Khách sạn", value: stats.hotels, icon: "🏨", href: "/admin/hotels" },
+            { label: "Tour", value: stats.tours, icon: "🗺️", href: "/admin/tours" },
+            { label: "Đặt chỗ", value: stats.bookings, icon: "📋", href: "/admin/bookings" },
             { label: "Vùng miền", value: stats.regions, icon: "🌏" },
           ].map((item) => (
             <div key={item.label} className="bg-white rounded-xl p-6 shadow-sm">

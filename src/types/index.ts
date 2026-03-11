@@ -180,9 +180,14 @@ export interface Comment {
 
 // --- Review ---
 
+export type ReviewTargetType = "destination" | "hotel" | "tour";
+
 export interface Review {
   id: string;
-  destinationSlug: string;
+  destinationSlug?: string;
+  targetType: ReviewTargetType;
+  targetSlug: string;
+  userId?: string;
   name: string;
   rating: number;
   content?: string;
@@ -245,6 +250,160 @@ export interface GalleryPhoto {
   storyTitle: string;
   storySlug: string;
   authorName: string;
+}
+
+// --- Hotel ---
+
+export interface HotelRoom {
+  name: string;
+  type: "standard" | "deluxe" | "suite" | "family";
+  price: number;
+  maxGuests: number;
+  amenities: string[];
+  images: string[];
+  available: boolean;
+}
+
+export interface Hotel {
+  id: string;
+  slug: string;
+  name: string;
+  nameVi: string;
+  destinationSlug?: string;
+  provinceSlug: string;
+  address: string;
+  coordinates?: { lat: number; lng: number };
+  stars: number;
+  description: string;
+  longDescription: string;
+  images: DestinationImage[];
+  priceRange: { min: number; max: number };
+  amenities: string[];
+  rooms: HotelRoom[];
+  contact: { phone?: string; email?: string; website?: string };
+  checkInTime?: string;
+  checkOutTime?: string;
+  policies?: string;
+  featured: boolean;
+  order: number;
+  averageRating: number;
+  reviewCount: number;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type HotelStars = 1 | 2 | 3 | 4 | 5;
+
+export interface HotelSearchParams {
+  q?: string;
+  province?: string;
+  minStars?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  amenities?: string;
+  sort?: string;
+  page?: string;
+  limit?: string;
+}
+
+// --- Tour ---
+
+export interface TourScheduleDay {
+  dayNumber: number;
+  title: string;
+  description: string;
+  destinationSlugs: string[];
+}
+
+export type TourCategory = "van-hoa" | "thien-nhien" | "phieu-luu" | "am-thuc" | "lich-su" | "ket-hop";
+
+export const TOUR_CATEGORY_LABELS: Record<TourCategory, string> = {
+  "van-hoa": "Văn hoá",
+  "thien-nhien": "Thiên nhiên",
+  "phieu-luu": "Phiêu lưu",
+  "am-thuc": "Ẩm thực",
+  "lich-su": "Lịch sử",
+  "ket-hop": "Kết hợp",
+};
+
+export interface Tour {
+  id: string;
+  slug: string;
+  name: string;
+  nameVi: string;
+  destinationSlugs: string[];
+  provinceSlug: string;
+  category: TourCategory;
+  description: string;
+  longDescription: string;
+  images: DestinationImage[];
+  duration: { days: number; nights: number };
+  price: number;
+  discountPrice?: number;
+  maxGroupSize: number;
+  schedule: TourScheduleDay[];
+  includes: string[];
+  excludes: string[];
+  highlights: string[];
+  departureLocation?: string;
+  difficulty?: "de" | "trung-binh" | "kho";
+  featured: boolean;
+  order: number;
+  averageRating: number;
+  reviewCount: number;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface TourSearchParams {
+  q?: string;
+  province?: string;
+  category?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  minDays?: string;
+  maxDays?: string;
+  difficulty?: string;
+  sort?: string;
+  page?: string;
+  limit?: string;
+}
+
+// --- Booking ---
+
+export type BookingStatus = "pending" | "confirmed" | "cancelled";
+
+export type PaymentStatus = "unpaid" | "pending" | "paid" | "refunded";
+
+export interface Booking {
+  id: string;
+  bookingCode: string;
+  userId: string;
+  type: "hotel" | "tour";
+  hotelSlug?: string;
+  roomName?: string;
+  tourSlug?: string;
+  checkIn?: string;
+  checkOut?: string;
+  tourDate?: string;
+  guests: number;
+  contactInfo: {
+    fullName: string;
+    email: string;
+    phone: string;
+  };
+  notes?: string;
+  totalPrice: number;
+  status: BookingStatus;
+  paymentStatus: PaymentStatus;
+  paymentMethod?: "vnpay" | "bank_transfer" | "cash";
+  paymentTransactionId?: string;
+  paymentDate?: string;
+  cancellationReason?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // --- Notification ---

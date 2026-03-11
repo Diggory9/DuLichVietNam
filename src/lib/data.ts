@@ -1,4 +1,4 @@
-import type { Province, Destination, SiteConfig, SearchParams, SearchResult, QuickSearchResult, Post, PaginatedResponse, Comment, Review, Itinerary, Story } from "@/types";
+import type { Province, Destination, SiteConfig, SearchParams, SearchResult, QuickSearchResult, Post, PaginatedResponse, Comment, Review, Itinerary, Story, Hotel, Tour, HotelSearchParams, TourSearchParams } from "@/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 const REVALIDATE = 60;
@@ -330,6 +330,116 @@ export async function getApprovedStories(
 export async function getStoryBySlug(slug: string): Promise<Story | undefined> {
   const data = await apiFetch<Story>(`/api/stories/${slug}`);
   return data || undefined;
+}
+
+// --- Hotels ---
+
+export async function getAllHotels(page: number = 1): Promise<PaginatedResponse<Hotel>> {
+  try {
+    const res = await fetch(`${API_URL}/api/hotels?page=${page}&limit=12`, {
+      next: { revalidate: REVALIDATE },
+    });
+    if (!res.ok) throw new Error();
+    const json = await res.json();
+    return { data: json.data, pagination: json.pagination };
+  } catch {
+    return { data: [], pagination: { page: 1, limit: 12, total: 0, totalPages: 0 } };
+  }
+}
+
+export async function getFeaturedHotels(): Promise<Hotel[]> {
+  const data = await apiFetch<Hotel[]>("/api/hotels/featured");
+  return data || [];
+}
+
+export async function getHotelBySlug(slug: string): Promise<Hotel | undefined> {
+  const data = await apiFetch<Hotel>(`/api/hotels/${slug}`);
+  return data || undefined;
+}
+
+export async function getHotelSlugs(): Promise<string[]> {
+  const result = await getAllHotels(1);
+  return result.data.map((h) => h.slug);
+}
+
+export async function getHotelsByProvince(provinceSlug: string): Promise<Hotel[]> {
+  const data = await apiFetch<Hotel[]>(`/api/hotels/by-province/${provinceSlug}`);
+  return data || [];
+}
+
+export async function getHotelsByDestination(destinationSlug: string): Promise<Hotel[]> {
+  const data = await apiFetch<Hotel[]>(`/api/hotels/by-destination/${destinationSlug}`);
+  return data || [];
+}
+
+export async function searchHotels(params: HotelSearchParams): Promise<PaginatedResponse<Hotel>> {
+  try {
+    const query = new URLSearchParams();
+    Object.entries(params).forEach(([k, v]) => { if (v) query.set(k, v); });
+    const res = await fetch(`${API_URL}/api/hotels/search?${query}`, {
+      next: { revalidate: REVALIDATE },
+    });
+    if (!res.ok) throw new Error();
+    const json = await res.json();
+    return { data: json.data, pagination: json.pagination };
+  } catch {
+    return { data: [], pagination: { page: 1, limit: 12, total: 0, totalPages: 0 } };
+  }
+}
+
+// --- Tours ---
+
+export async function getAllTours(page: number = 1): Promise<PaginatedResponse<Tour>> {
+  try {
+    const res = await fetch(`${API_URL}/api/tours?page=${page}&limit=12`, {
+      next: { revalidate: REVALIDATE },
+    });
+    if (!res.ok) throw new Error();
+    const json = await res.json();
+    return { data: json.data, pagination: json.pagination };
+  } catch {
+    return { data: [], pagination: { page: 1, limit: 12, total: 0, totalPages: 0 } };
+  }
+}
+
+export async function getFeaturedTours(): Promise<Tour[]> {
+  const data = await apiFetch<Tour[]>("/api/tours/featured");
+  return data || [];
+}
+
+export async function getTourBySlug(slug: string): Promise<Tour | undefined> {
+  const data = await apiFetch<Tour>(`/api/tours/${slug}`);
+  return data || undefined;
+}
+
+export async function getTourSlugs(): Promise<string[]> {
+  const result = await getAllTours(1);
+  return result.data.map((t) => t.slug);
+}
+
+export async function getToursByProvince(provinceSlug: string): Promise<Tour[]> {
+  const data = await apiFetch<Tour[]>(`/api/tours/by-province/${provinceSlug}`);
+  return data || [];
+}
+
+export async function getToursByDestination(destinationSlug: string): Promise<Tour[]> {
+  const data = await apiFetch<Tour[]>(`/api/tours/by-destination/${destinationSlug}`);
+  return data || [];
+}
+
+export async function searchTours(params: TourSearchParams): Promise<PaginatedResponse<Tour>> {
+  try {
+    const query = new URLSearchParams();
+    Object.entries(params).forEach(([k, v]) => { if (v) query.set(k, v); });
+    const res = await fetch(`${API_URL}/api/tours/search?${query}`, {
+      next: { revalidate: REVALIDATE },
+    });
+    if (!res.ok) throw new Error();
+    const json = await res.json();
+    return { data: json.data, pagination: json.pagination };
+  } catch {
+    return { data: [], pagination: { page: 1, limit: 12, total: 0, totalPages: 0 } };
+  }
 }
 
 export async function getReviewsByDestination(slug: string): Promise<Review[]> {

@@ -18,4 +18,8 @@ export const env = {
   smtpUser: process.env.SMTP_USER || "",
   smtpPass: process.env.SMTP_PASS || "",
   contactEmail: process.env.CONTACT_EMAIL || "",
+  vnpayTmnCode: process.env.VNPAY_TMN_CODE || "CGXZLS0Z",
+  vnpayHashSecret: process.env.VNPAY_HASH_SECRET || "XNBCJFAKAZQSGTARRLGCHVZWCIOIGSHN",
+  vnpayUrl: process.env.VNPAY_URL || "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html",
+  vnpayReturnUrl: process.env.VNPAY_RETURN_URL || "http://localhost:3000/thanh-toan/ket-qua",
 };

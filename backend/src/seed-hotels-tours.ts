@@ -1,0 +1,377 @@
+import mongoose from "mongoose";
+import { Hotel } from "./models/Hotel";
+import { Tour } from "./models/Tour";
+import { env } from "./config/env";
+
+async function seed() {
+  await mongoose.connect(env.mongodbUri);
+  console.log("Connected to MongoDB");
+
+  const hotelCount = await Hotel.countDocuments();
+  const tourCount = await Tour.countDocuments();
+  console.log("Existing hotels:", hotelCount, "tours:", tourCount);
+
+  if (hotelCount === 0) {
+    const hotels = [
+      {
+        slug: "sofitel-legend-metropole-ha-noi",
+        name: "Sofitel Legend Metropole Hanoi",
+        nameVi: "Sofitel Legend Metropole Hà Nội",
+        provinceSlug: "ha-noi",
+        destinationSlug: "ho-hoan-kiem",
+        address: "15 Ngô Quyền, Hoàn Kiếm, Hà Nội",
+        coordinates: { lat: 21.0252, lng: 105.8572 },
+        stars: 5,
+        description: "Khách sạn 5 sao huyền thoại nằm ngay trung tâm Hà Nội, mang đậm phong cách kiến trúc Pháp cổ điển.",
+        longDescription: "Sofitel Legend Metropole Hanoi là khách sạn lịch sử và sang trọng bậc nhất Hà Nội. Được xây dựng từ năm 1901, khách sạn đã đón tiếp nhiều nhân vật nổi tiếng thế giới. Với kiến trúc Pháp cổ điển, nội thất tinh tế và dịch vụ đẳng cấp quốc tế, đây là lựa chọn hoàn hảo cho du khách muốn trải nghiệm sự xa hoa giữa lòng thủ đô.",
+        images: [
+          { src: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800", alt: "Sofitel Metropole", caption: "Mặt tiền khách sạn" },
+          { src: "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800", alt: "Phòng nghỉ", caption: "Phòng Deluxe" },
+          { src: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800", alt: "Hồ bơi", caption: "Hồ bơi ngoài trời" },
+        ],
+        priceRange: { min: 5500000, max: 25000000 },
+        amenities: ["WiFi miễn phí", "Hồ bơi", "Spa", "Nhà hàng", "Bar", "Phòng gym", "Dịch vụ phòng 24/7", "Đỗ xe", "Giặt ủi"],
+        rooms: [
+          { name: "Premium Room", type: "standard", price: 5500000, maxGuests: 2, amenities: ["WiFi", "TV", "Minibar", "Két sắt"], images: [], available: true },
+          { name: "Grand Prestige Suite", type: "suite", price: 15000000, maxGuests: 3, amenities: ["WiFi", "TV 55 inch", "Minibar", "Bồn tắm", "Phòng khách riêng"], images: [], available: true },
+          { name: "Opera Wing Deluxe", type: "deluxe", price: 8000000, maxGuests: 2, amenities: ["WiFi", "TV", "Minibar", "Ban công"], images: [], available: true },
+        ],
+        contact: { phone: "024-3826-6919", email: "info@sofitel-legend.com", website: "https://sofitel-legend.com" },
+        checkInTime: "14:00",
+        checkOutTime: "12:00",
+        policies: "Huỷ miễn phí trước 48 giờ. Trẻ em dưới 12 tuổi được ở miễn phí khi dùng giường có sẵn.",
+        featured: true, order: 1, averageRating: 4.8, reviewCount: 325, active: true,
+      },
+      {
+        slug: "vinpearl-resort-nha-trang",
+        name: "Vinpearl Resort Nha Trang",
+        nameVi: "Vinpearl Resort Nha Trang",
+        provinceSlug: "khanh-hoa",
+        address: "Đảo Hòn Tre, Nha Trang, Khánh Hòa",
+        coordinates: { lat: 12.2188, lng: 109.226 },
+        stars: 5,
+        description: "Resort 5 sao trên đảo Hòn Tre với bãi biển riêng, công viên giải trí và aquarium.",
+        longDescription: "Vinpearl Resort Nha Trang toạ lạc trên đảo Hòn Tre xinh đẹp, được kết nối với đất liền bằng cáp treo vượt biển dài nhất thế giới. Resort sở hữu bãi biển riêng tuyệt đẹp, hồ bơi ngoài trời rộng lớn, công viên nước, vườn thú và aquarium.",
+        images: [
+          { src: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800", alt: "Vinpearl Resort", caption: "Toàn cảnh resort" },
+          { src: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800", alt: "Bãi biển", caption: "Bãi biển riêng" },
+          { src: "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=800", alt: "Hồ bơi", caption: "Hồ bơi vô cực" },
+        ],
+        priceRange: { min: 3200000, max: 18000000 },
+        amenities: ["WiFi miễn phí", "Bãi biển riêng", "Hồ bơi", "Spa", "Nhà hàng", "Công viên nước", "Phòng gym", "Cáp treo"],
+        rooms: [
+          { name: "Deluxe Garden View", type: "deluxe", price: 3200000, maxGuests: 2, amenities: ["WiFi", "TV", "Minibar", "Ban công"], images: [], available: true },
+          { name: "Deluxe Ocean View", type: "deluxe", price: 4500000, maxGuests: 2, amenities: ["WiFi", "TV", "Minibar", "View biển"], images: [], available: true },
+          { name: "Family Suite", type: "family", price: 8500000, maxGuests: 4, amenities: ["WiFi", "TV", "Minibar", "2 phòng ngủ", "Phòng khách"], images: [], available: true },
+          { name: "President Suite", type: "suite", price: 18000000, maxGuests: 4, amenities: ["WiFi", "TV 65 inch", "Minibar", "Bồn tắm jacuzzi", "Phòng khách", "Bếp"], images: [], available: true },
+        ],
+        contact: { phone: "0258-3598-188", email: "info@vinpearl.com", website: "https://vinpearl.com" },
+        checkInTime: "14:00",
+        checkOutTime: "12:00",
+        policies: "Huỷ miễn phí trước 72 giờ. Bao gồm vé cáp treo và vào công viên VinWonders.",
+        featured: true, order: 2, averageRating: 4.6, reviewCount: 512, active: true,
+      },
+      {
+        slug: "intercontinental-da-nang",
+        name: "InterContinental Danang Sun Peninsula",
+        nameVi: "InterContinental Đà Nẵng Sun Peninsula",
+        provinceSlug: "da-nang",
+        address: "Bãi Bắc, Bán đảo Sơn Trà, Đà Nẵng",
+        coordinates: { lat: 16.1268, lng: 108.2772 },
+        stars: 5,
+        description: "Resort sang trọng bậc nhất Đông Nam Á nằm trên bán đảo Sơn Trà với thiết kế của Bill Bensley.",
+        longDescription: "InterContinental Danang Sun Peninsula Resort được thiết kế bởi kiến trúc sư nổi tiếng Bill Bensley, toạ lạc giữa rừng nguyên sinh trên bán đảo Sơn Trà. Resort được chia thành 4 tầng: Thiên đường, Trời, Đất và Biển.",
+        images: [
+          { src: "https://images.unsplash.com/photo-1615460549969-36fa19521a4f?w=800", alt: "InterContinental", caption: "Toàn cảnh resort" },
+          { src: "https://images.unsplash.com/photo-1602002418816-5c0aeef426aa?w=800", alt: "Villa", caption: "Classic Villa" },
+          { src: "https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800", alt: "Beach", caption: "Bãi biển riêng" },
+        ],
+        priceRange: { min: 8000000, max: 45000000 },
+        amenities: ["WiFi miễn phí", "Bãi biển riêng", "Hồ bơi vô cực", "Spa", "4 nhà hàng", "Bar", "Phòng gym", "Yoga", "Đỗ xe"],
+        rooms: [
+          { name: "Classic Room", type: "standard", price: 8000000, maxGuests: 2, amenities: ["WiFi", "TV", "Minibar", "Bồn tắm"], images: [], available: true },
+          { name: "Terrace Suite", type: "suite", price: 18000000, maxGuests: 3, amenities: ["WiFi", "TV", "Minibar", "Sân thượng riêng", "Phòng khách"], images: [], available: true },
+          { name: "Penthouse Suite", type: "suite", price: 45000000, maxGuests: 4, amenities: ["WiFi", "TV 75 inch", "Hồ bơi riêng", "Butler", "Phòng khách"], images: [], available: true },
+        ],
+        contact: { phone: "0236-3938-888", email: "info@icdanang.com", website: "https://danang.intercontinental.com" },
+        checkInTime: "15:00",
+        checkOutTime: "12:00",
+        policies: "Huỷ miễn phí trước 7 ngày. Trẻ em dưới 6 tuổi miễn phí.",
+        featured: true, order: 3, averageRating: 4.9, reviewCount: 280, active: true,
+      },
+      {
+        slug: "hotel-majestic-sai-gon",
+        name: "Hotel Majestic Saigon",
+        nameVi: "Khách sạn Majestic Sài Gòn",
+        provinceSlug: "ho-chi-minh",
+        address: "1 Đồng Khởi, Quận 1, TP.HCM",
+        coordinates: { lat: 10.7721, lng: 106.7048 },
+        stars: 4,
+        description: "Khách sạn lịch sử 4 sao nằm bên bờ sông Sài Gòn với kiến trúc colonial Pháp từ năm 1925.",
+        longDescription: "Hotel Majestic Saigon là một trong những khách sạn lâu đời nhất Sài Gòn, được xây dựng từ năm 1925. Nằm ngay đầu phố đi bộ Nguyễn Huệ và bến Bạch Đằng, khách sạn mang phong cách kiến trúc thuộc địa Pháp thanh lịch.",
+        images: [
+          { src: "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800", alt: "Majestic Hotel", caption: "Mặt tiền khách sạn" },
+          { src: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800", alt: "Lobby", caption: "Sảnh khách sạn" },
+        ],
+        priceRange: { min: 2200000, max: 8000000 },
+        amenities: ["WiFi miễn phí", "Hồ bơi", "Spa", "Nhà hàng", "Rooftop bar", "Phòng gym", "Dịch vụ phòng 24/7"],
+        rooms: [
+          { name: "Superior Room", type: "standard", price: 2200000, maxGuests: 2, amenities: ["WiFi", "TV", "Minibar"], images: [], available: true },
+          { name: "Deluxe River View", type: "deluxe", price: 3500000, maxGuests: 2, amenities: ["WiFi", "TV", "Minibar", "View sông"], images: [], available: true },
+          { name: "Colonial Suite", type: "suite", price: 8000000, maxGuests: 3, amenities: ["WiFi", "TV", "Minibar", "Phòng khách", "Bồn tắm"], images: [], available: true },
+        ],
+        contact: { phone: "028-3829-5514", email: "info@majesticsaigon.com" },
+        checkInTime: "14:00",
+        checkOutTime: "12:00",
+        policies: "Huỷ miễn phí trước 24 giờ.",
+        featured: true, order: 4, averageRating: 4.5, reviewCount: 198, active: true,
+      },
+      {
+        slug: "victoria-sapa-resort",
+        name: "Victoria Sapa Resort & Spa",
+        nameVi: "Victoria Sapa Resort & Spa",
+        provinceSlug: "lao-cai",
+        address: "Xã San Sả Hồ, Sa Pa, Lào Cai",
+        coordinates: { lat: 22.3364, lng: 103.8438 },
+        stars: 4,
+        description: "Resort 4 sao phong cách châu Âu giữa núi rừng Sa Pa với view thung lũng Mường Hoa.",
+        longDescription: "Victoria Sapa Resort & Spa nằm trên đỉnh đồi nhìn xuống thị trấn Sa Pa và thung lũng Mường Hoa hùng vĩ. Resort mang phong cách kiến trúc chalet Thụy Sĩ kết hợp nét văn hoá dân tộc Tây Bắc.",
+        images: [
+          { src: "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=800", alt: "Victoria Sapa", caption: "Resort giữa núi rừng" },
+          { src: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800", alt: "View", caption: "View thung lũng" },
+        ],
+        priceRange: { min: 2800000, max: 12000000 },
+        amenities: ["WiFi miễn phí", "Spa", "Nhà hàng", "Bar", "Hồ bơi trong nhà", "Lò sưởi", "Phòng gym"],
+        rooms: [
+          { name: "Superior Room", type: "standard", price: 2800000, maxGuests: 2, amenities: ["WiFi", "TV", "Lò sưởi", "Minibar"], images: [], available: true },
+          { name: "Deluxe Balcony", type: "deluxe", price: 4200000, maxGuests: 2, amenities: ["WiFi", "TV", "Lò sưởi", "Ban công view núi"], images: [], available: true },
+          { name: "Family Room", type: "family", price: 6500000, maxGuests: 4, amenities: ["WiFi", "TV", "Lò sưởi", "2 giường", "Phòng rộng"], images: [], available: true },
+        ],
+        contact: { phone: "0214-3871-522", email: "info@victoriasapa.com" },
+        checkInTime: "14:00",
+        checkOutTime: "12:00",
+        policies: "Huỷ miễn phí trước 48 giờ. Bao gồm bữa sáng buffet.",
+        featured: true, order: 5, averageRating: 4.4, reviewCount: 156, active: true,
+      },
+      {
+        slug: "anantara-mui-ne-resort",
+        name: "Anantara Mui Ne Resort",
+        nameVi: "Anantara Mũi Né Resort",
+        provinceSlug: "binh-thuan",
+        address: "12A Nguyễn Đình Chiểu, Mũi Né, Phan Thiết",
+        coordinates: { lat: 10.9383, lng: 108.2869 },
+        stars: 5,
+        description: "Resort 5 sao ven biển Mũi Né với kiến trúc nhiệt đới, hồ bơi tràn và spa đẳng cấp.",
+        longDescription: "Anantara Mui Ne Resort toạ lạc trên bãi biển tuyệt đẹp của Mũi Né, nổi tiếng với cồn cát và làng chài. Resort mang phong cách nhiệt đới sang trọng.",
+        images: [
+          { src: "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=800", alt: "Anantara", caption: "Hồ bơi hướng biển" },
+          { src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800", alt: "Beach", caption: "Bãi biển" },
+        ],
+        priceRange: { min: 3800000, max: 15000000 },
+        amenities: ["WiFi miễn phí", "Bãi biển riêng", "Hồ bơi", "Spa", "Nhà hàng", "Bar", "Phòng gym", "Thể thao nước"],
+        rooms: [
+          { name: "Deluxe Sea View", type: "deluxe", price: 3800000, maxGuests: 2, amenities: ["WiFi", "TV", "Minibar", "View biển"], images: [], available: true },
+          { name: "Pool Villa", type: "suite", price: 12000000, maxGuests: 3, amenities: ["WiFi", "TV", "Hồ bơi riêng", "Vườn"], images: [], available: true },
+        ],
+        contact: { phone: "0252-3741-888", email: "info@anantara.com" },
+        checkInTime: "14:00",
+        checkOutTime: "12:00",
+        policies: "Huỷ miễn phí trước 72 giờ.",
+        featured: false, order: 6, averageRating: 4.7, reviewCount: 143, active: true,
+      },
+    ];
+
+    await Hotel.insertMany(hotels);
+    console.log("Inserted", hotels.length, "hotels");
+  } else {
+    console.log("Hotels already exist, skipping");
+  }
+
+  if (tourCount === 0) {
+    const tours = [
+      {
+        slug: "ha-long-bay-2-ngay-1-dem",
+        name: "Ha Long Bay Cruise 2D1N",
+        nameVi: "Du thuyền Vịnh Hạ Long 2 ngày 1 đêm",
+        destinationSlugs: ["vinh-ha-long"],
+        provinceSlug: "quang-ninh",
+        category: "thien-nhien",
+        description: "Trải nghiệm du thuyền sang trọng trên Vịnh Hạ Long - Di sản thiên nhiên thế giới.",
+        longDescription: "Khám phá vẻ đẹp huyền ảo của Vịnh Hạ Long trên du thuyền 5 sao. Bạn sẽ được chiêm ngưỡng hàng nghìn đảo đá vôi, chèo kayak khám phá hang động, tắm biển tại bãi tắm riêng và ngắm hoàng hôn tuyệt đẹp trên vịnh.",
+        images: [
+          { src: "https://images.unsplash.com/photo-1528127269322-539801943592?w=800", alt: "Ha Long Bay", caption: "Vịnh Hạ Long" },
+          { src: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800", alt: "Cruise", caption: "Du thuyền" },
+        ],
+        duration: { days: 2, nights: 1 },
+        price: 3500000,
+        discountPrice: 2990000,
+        maxGroupSize: 20,
+        schedule: [
+          { dayNumber: 1, title: "Hà Nội - Vịnh Hạ Long", description: "Đón khách tại Hà Nội, di chuyển đến bến tàu. Lên du thuyền, ăn trưa, tham quan hang Sửng Sốt, chèo kayak, tắm biển. Tối: tiệc hải sản, câu mực đêm.", destinationSlugs: ["vinh-ha-long"] },
+          { dayNumber: 2, title: "Vịnh Hạ Long - Hà Nội", description: "Tập Tai Chi buổi sáng, ăn brunch, tham quan đảo Ti Tốp. Trả phòng, trở về Hà Nội.", destinationSlugs: ["vinh-ha-long"] },
+        ],
+        includes: ["Xe đưa đón Hà Nội", "Du thuyền 5 sao", "3 bữa ăn", "Kayak", "Phí tham quan", "Hướng dẫn viên", "Bảo hiểm"],
+        excludes: ["Đồ uống", "Tip", "Chi phí cá nhân"],
+        highlights: ["Du thuyền 5 sao", "Hang Sửng Sốt", "Chèo kayak", "Câu mực đêm", "Bãi tắm riêng"],
+        departureLocation: "Hà Nội",
+        difficulty: "de",
+        featured: true, order: 1, averageRating: 4.7, reviewCount: 234, active: true,
+      },
+      {
+        slug: "sapa-trekking-3-ngay-2-dem",
+        name: "Sapa Trekking Adventure",
+        nameVi: "Trekking Sa Pa 3 ngày 2 đêm",
+        destinationSlugs: [],
+        provinceSlug: "lao-cai",
+        category: "phieu-luu",
+        description: "Hành trình trekking qua các bản làng dân tộc và ruộng bậc thang tuyệt đẹp tại Sa Pa.",
+        longDescription: "Khám phá vẻ đẹp hoang sơ của Sa Pa qua hành trình trekking 3 ngày. Đi bộ qua ruộng bậc thang, ghé thăm các bản làng H'Mông, Dao Đỏ và chinh phục đỉnh Fansipan.",
+        images: [
+          { src: "https://images.unsplash.com/photo-1570366583862-f91883984fde?w=800", alt: "Sapa", caption: "Ruộng bậc thang Sa Pa" },
+          { src: "https://images.unsplash.com/photo-1560347876-aeef00ee58a1?w=800", alt: "Trekking", caption: "Trekking qua bản làng" },
+        ],
+        duration: { days: 3, nights: 2 },
+        price: 2800000,
+        maxGroupSize: 12,
+        schedule: [
+          { dayNumber: 1, title: "Sa Pa - Bản Cát Cát", description: "Trekking xuống bản Cát Cát, tham quan thác, homestay bản H'Mông.", destinationSlugs: [] },
+          { dayNumber: 2, title: "Bản Tả Van - Giang Tả Chải", description: "Trekking qua ruộng bậc thang Mường Hoa, thăm bản Tả Van, bản Giang Tả Chải.", destinationSlugs: [] },
+          { dayNumber: 3, title: "Fansipan - Sa Pa", description: "Cáp treo lên đỉnh Fansipan 3143m. Trở về Sa Pa.", destinationSlugs: [] },
+        ],
+        includes: ["Hướng dẫn viên bản địa", "Homestay 2 đêm", "5 bữa ăn", "Vé cáp treo Fansipan", "Bảo hiểm"],
+        excludes: ["Di chuyển đến Sa Pa", "Đồ uống", "Chi phí cá nhân"],
+        highlights: ["Ruộng bậc thang Mường Hoa", "Bản làng dân tộc", "Homestay", "Đỉnh Fansipan 3143m"],
+        departureLocation: "Sa Pa",
+        difficulty: "trung-binh",
+        featured: true, order: 2, averageRating: 4.6, reviewCount: 178, active: true,
+      },
+      {
+        slug: "phu-quoc-4-ngay-3-dem",
+        name: "Phu Quoc Island Paradise",
+        nameVi: "Thiên đường Phú Quốc 4 ngày 3 đêm",
+        destinationSlugs: [],
+        provinceSlug: "kien-giang",
+        category: "ket-hop",
+        description: "Khám phá đảo ngọc Phú Quốc với biển xanh, cáp treo, safari và ẩm thực hải sản.",
+        longDescription: "Tour Phú Quốc 4 ngày đưa bạn khám phá trọn vẹn đảo ngọc. Từ bãi biển Sao, lặn ngắm san hô, cáp treo Hòn Thơm đến Vinpearl Safari và chợ đêm.",
+        images: [
+          { src: "https://images.unsplash.com/photo-1559628233-100c798642d4?w=800", alt: "Phu Quoc", caption: "Bãi biển Phú Quốc" },
+          { src: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800", alt: "Snorkeling", caption: "Lặn ngắm san hô" },
+        ],
+        duration: { days: 4, nights: 3 },
+        price: 5900000,
+        discountPrice: 4990000,
+        maxGroupSize: 25,
+        schedule: [
+          { dayNumber: 1, title: "Đón sân bay - Khám phá", description: "Đón sân bay, check-in resort. Chiều: Dinh Cậu, chợ đêm.", destinationSlugs: [] },
+          { dayNumber: 2, title: "Cáp treo - Hòn Thơm", description: "Cáp treo Hòn Thơm, Bãi Sao, lặn ngắm san hô.", destinationSlugs: [] },
+          { dayNumber: 3, title: "Safari - Rạch Vẹm", description: "Vinpearl Safari, làng chài Rạch Vẹm, vườn tiêu.", destinationSlugs: [] },
+          { dayNumber: 4, title: "Tự do - Sân bay", description: "Tự do nghỉ ngơi, mua sắm. Ra sân bay.", destinationSlugs: [] },
+        ],
+        includes: ["Vé máy bay khứ hồi", "Resort 4 sao", "7 bữa ăn", "Vé cáp treo", "Lặn biển", "Vé Safari", "HDV", "Bảo hiểm"],
+        excludes: ["Đồ uống", "Tip", "Chi phí cá nhân"],
+        highlights: ["Bãi Sao", "Cáp treo Hòn Thơm", "Lặn san hô", "Vinpearl Safari", "Chợ đêm"],
+        departureLocation: "TP. Hồ Chí Minh",
+        difficulty: "de",
+        featured: true, order: 3, averageRating: 4.5, reviewCount: 312, active: true,
+      },
+      {
+        slug: "da-nang-hoi-an-hue-5-ngay",
+        name: "Central Vietnam Heritage Tour",
+        nameVi: "Di sản miền Trung 5 ngày 4 đêm",
+        destinationSlugs: ["pho-co-hoi-an", "cau-vang-ba-na"],
+        provinceSlug: "da-nang",
+        category: "van-hoa",
+        description: "Hành trình khám phá 3 di sản UNESCO: Cố đô Huế, Phố cổ Hội An và Thánh địa Mỹ Sơn.",
+        longDescription: "Tour miền Trung 5 ngày đưa bạn qua 3 thành phố di sản. Khám phá Cố đô Huế, Đà Nẵng với Cầu Vàng, Hội An với phố cổ thơ mộng và Thánh địa Mỹ Sơn.",
+        images: [
+          { src: "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=800", alt: "Hoi An", caption: "Phố cổ Hội An" },
+          { src: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=800", alt: "Golden Bridge", caption: "Cầu Vàng Bà Nà" },
+        ],
+        duration: { days: 5, nights: 4 },
+        price: 7500000,
+        maxGroupSize: 20,
+        schedule: [
+          { dayNumber: 1, title: "Đà Nẵng - Bà Nà Hills", description: "Đón sân bay. Tham quan Bà Nà Hills, Cầu Vàng.", destinationSlugs: ["cau-vang-ba-na"] },
+          { dayNumber: 2, title: "Đà Nẵng - Huế", description: "Đèo Hải Vân, Đại Nội Huế, Chùa Thiên Mụ.", destinationSlugs: [] },
+          { dayNumber: 3, title: "Huế - Lăng tẩm", description: "Lăng Minh Mạng, Khải Định, Tự Đức. Sông Hương.", destinationSlugs: [] },
+          { dayNumber: 4, title: "Hội An - Mỹ Sơn", description: "Thánh địa Mỹ Sơn. Phố cổ Hội An, thả đèn hoa đăng.", destinationSlugs: ["pho-co-hoi-an"] },
+          { dayNumber: 5, title: "Hội An - Sân bay", description: "Tự do tại Hội An. Ra sân bay Đà Nẵng.", destinationSlugs: [] },
+        ],
+        includes: ["Khách sạn 4 sao", "9 bữa ăn", "Xe đưa đón", "Vé tham quan", "HDV", "Bảo hiểm"],
+        excludes: ["Vé máy bay", "Đồ uống", "Tip"],
+        highlights: ["Cầu Vàng Bà Nà", "Đại Nội Huế", "Phố cổ Hội An", "Thánh địa Mỹ Sơn", "Sông Hương"],
+        departureLocation: "Đà Nẵng",
+        difficulty: "de",
+        featured: true, order: 4, averageRating: 4.8, reviewCount: 195, active: true,
+      },
+      {
+        slug: "mekong-delta-2-ngay",
+        name: "Mekong Delta Experience",
+        nameVi: "Khám phá sông Cửu Long 2 ngày 1 đêm",
+        destinationSlugs: [],
+        provinceSlug: "ben-tre",
+        category: "am-thuc",
+        description: "Trải nghiệm sông nước miền Tây với chợ nổi, vườn trái cây và ẩm thực Nam Bộ.",
+        longDescription: "Tour Mekong Delta đưa bạn khám phá cuộc sống sông nước. Đi thuyền trên kênh rạch, chợ nổi Cái Răng, vườn trái cây Bến Tre, làng nghề kẹo dừa.",
+        images: [
+          { src: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800", alt: "Mekong", caption: "Sông nước miền Tây" },
+          { src: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800", alt: "Floating market", caption: "Chợ nổi" },
+        ],
+        duration: { days: 2, nights: 1 },
+        price: 1800000,
+        discountPrice: 1490000,
+        maxGroupSize: 15,
+        schedule: [
+          { dayNumber: 1, title: "TP.HCM - Bến Tre - Cần Thơ", description: "Đi thuyền sông, vườn dừa, làm kẹo dừa, đờn ca tài tử.", destinationSlugs: [] },
+          { dayNumber: 2, title: "Chợ nổi Cái Răng - TP.HCM", description: "Chợ nổi Cái Răng, vườn trái cây. Về TP.HCM.", destinationSlugs: [] },
+        ],
+        includes: ["Xe đưa đón", "Thuyền", "Homestay", "3 bữa ăn", "Trái cây", "HDV", "Bảo hiểm"],
+        excludes: ["Đồ uống", "Tip", "Chi phí cá nhân"],
+        highlights: ["Chợ nổi Cái Răng", "Vườn dừa Bến Tre", "Kẹo dừa", "Đờn ca tài tử"],
+        departureLocation: "TP. Hồ Chí Minh",
+        difficulty: "de",
+        featured: true, order: 5, averageRating: 4.4, reviewCount: 267, active: true,
+      },
+      {
+        slug: "ha-giang-loop-4-ngay",
+        name: "Ha Giang Extreme Loop",
+        nameVi: "Vòng cung Hà Giang 4 ngày 3 đêm",
+        destinationSlugs: [],
+        provinceSlug: "ha-giang",
+        category: "phieu-luu",
+        description: "Hành trình vòng cung Đông Bắc qua những cung đường đẹp nhất Việt Nam.",
+        longDescription: "Vòng cung Hà Giang là cung đường huyền thoại. Hành trình 4 ngày qua Quản Bạ, Đồng Văn, Mèo Vạc với đèo Mã Pí Lèng, cao nguyên đá UNESCO.",
+        images: [
+          { src: "https://images.unsplash.com/photo-1573790387438-4da905039392?w=800", alt: "Ha Giang", caption: "Đèo Mã Pí Lèng" },
+          { src: "https://images.unsplash.com/photo-1570366583862-f91883984fde?w=800", alt: "Mountains", caption: "Cao nguyên đá" },
+        ],
+        duration: { days: 4, nights: 3 },
+        price: 4200000,
+        maxGroupSize: 10,
+        schedule: [
+          { dayNumber: 1, title: "Hà Giang - Quản Bạ - Yên Minh", description: "Đèo Quản Bạ, Núi Đôi. Nghỉ Yên Minh.", destinationSlugs: [] },
+          { dayNumber: 2, title: "Yên Minh - Đồng Văn", description: "Phố cổ Đồng Văn, Dinh vua Mèo, Cột cờ Lũng Cú.", destinationSlugs: [] },
+          { dayNumber: 3, title: "Đồng Văn - Mèo Vạc", description: "Đèo Mã Pí Lèng, hẻm Tu Sản, sông Nho Quế.", destinationSlugs: [] },
+          { dayNumber: 4, title: "Mèo Vạc - Hà Giang", description: "Trở về TP Hà Giang.", destinationSlugs: [] },
+        ],
+        includes: ["Xe máy/ô tô", "Homestay 3 đêm", "7 bữa ăn", "Xăng", "HDV bản địa", "Bảo hiểm"],
+        excludes: ["Di chuyển đến Hà Giang", "Đồ uống", "Chi phí cá nhân"],
+        highlights: ["Đèo Mã Pí Lèng", "Cột cờ Lũng Cú", "Cao nguyên đá Đồng Văn", "Sông Nho Quế"],
+        departureLocation: "Hà Giang",
+        difficulty: "kho",
+        featured: true, order: 6, averageRating: 4.9, reviewCount: 189, active: true,
+      },
+    ];
+
+    await Tour.insertMany(tours);
+    console.log("Inserted", tours.length, "tours");
+  } else {
+    console.log("Tours already exist, skipping");
+  }
+
+  await mongoose.disconnect();
+  console.log("Done!");
+}
+
+seed().catch(console.error);

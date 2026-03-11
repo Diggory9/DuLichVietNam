@@ -6,6 +6,9 @@ import { Contact } from "../models/Contact";
 import { Comment } from "../models/Comment";
 import { Review } from "../models/Review";
 import { User } from "../models/User";
+import { Hotel } from "../models/Hotel";
+import { Tour } from "../models/Tour";
+import { Booking } from "../models/Booking";
 
 export async function getStats(
   _req: Request,
@@ -13,7 +16,7 @@ export async function getStats(
   next: NextFunction
 ) {
   try {
-    const [provinceCount, destinationCount, postCount, categories, regions, unreadContacts, commentCount, reviewCount] =
+    const [provinceCount, destinationCount, postCount, categories, regions, unreadContacts, commentCount, reviewCount, hotelCount, tourCount, bookingCount] =
       await Promise.all([
         Province.countDocuments(),
         Destination.countDocuments(),
@@ -23,6 +26,9 @@ export async function getStats(
         Contact.countDocuments({ read: false }),
         Comment.countDocuments(),
         Review.countDocuments(),
+        Hotel.countDocuments({ active: true }),
+        Tour.countDocuments({ active: true }),
+        Booking.countDocuments(),
       ]);
 
     res.json({
@@ -36,6 +42,9 @@ export async function getStats(
         unreadContacts,
         comments: commentCount,
         reviews: reviewCount,
+        hotels: hotelCount,
+        tours: tourCount,
+        bookings: bookingCount,
       },
     });
   } catch (err) {

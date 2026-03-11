@@ -4,3 +4,7 @@ export { SiteConfig, type ISiteConfig } from "./SiteConfig";
 export { User, type IUser } from "./User";
 export { Post, type IPost } from "./Post";
 export { Story, type IStory, type IStoryPhoto } from "./Story";
+export { Hotel, type IHotel, type IHotelRoom } from "./Hotel";
+export { Tour, type ITour, type ITourScheduleDay } from "./Tour";
+export { Booking, type IBooking } from "./Booking";
+export { RoomInventory, type IRoomInventory } from "./RoomInventory";

@@ -390,6 +390,134 @@ export async function updateStoryStatus(id: string, status: "approved" | "reject
   return result;
 }
 
+// --- Hotels ---
+
+export async function fetchHotels() {
+  const res = await fetch(`${API_URL}/api/hotels?limit=100`);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Lỗi");
+  return data.data;
+}
+
+export async function fetchHotel(slug: string) {
+  const res = await fetch(`${API_URL}/api/hotels/${slug}`);
+  return handleResponse(res);
+}
+
+export async function createHotel(data: Record<string, unknown>) {
+  const res = await fetch(`${API_URL}/api/hotels`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
+}
+
+export async function updateHotel(slug: string, data: Record<string, unknown>) {
+  const res = await fetch(`${API_URL}/api/hotels/${slug}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
+}
+
+export async function deleteHotel(slug: string) {
+  const res = await fetch(`${API_URL}/api/hotels/${slug}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
+}
+
+// --- Tours ---
+
+export async function fetchTours() {
+  const res = await fetch(`${API_URL}/api/tours?limit=100`);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Lỗi");
+  return data.data;
+}
+
+export async function fetchTour(slug: string) {
+  const res = await fetch(`${API_URL}/api/tours/${slug}`);
+  return handleResponse(res);
+}
+
+export async function createTour(data: Record<string, unknown>) {
+  const res = await fetch(`${API_URL}/api/tours`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
+}
+
+export async function updateTour(slug: string, data: Record<string, unknown>) {
+  const res = await fetch(`${API_URL}/api/tours/${slug}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
+}
+
+export async function deleteTour(slug: string) {
+  const res = await fetch(`${API_URL}/api/tours/${slug}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  const result = await handleResponse(res);
+  await revalidateFrontend();
+  return result;
+}
+
+// --- Bookings (Admin) ---
+
+export async function fetchBookings(page = 1, status?: string, type?: string) {
+  const params = new URLSearchParams({ page: String(page) });
+  if (status) params.set("status", status);
+  if (type) params.set("type", type);
+  const res = await fetch(`${API_URL}/api/bookings/admin/all?${params}`, {
+    headers: authHeaders(),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Lỗi");
+  return { bookings: data.data, pagination: data.pagination };
+}
+
+export async function updateBookingStatus(id: string, status: string, reason?: string) {
+  const res = await fetch(`${API_URL}/api/bookings/admin/${id}/status`, {
+    method: "PATCH",
+    headers: authHeaders(),
+    body: JSON.stringify({ status, reason }),
+  });
+  return handleResponse(res);
+}
+
+export async function fetchBookingStats() {
+  const res = await fetch(`${API_URL}/api/bookings/admin/stats`, {
+    headers: authHeaders(),
+  });
+  return handleResponse<{
+    total: number;
+    pending: number;
+    confirmed: number;
+    cancelled: number;
+    revenue: number;
+  }>(res);
+}
+
 // --- Stats ---
 
 export async function fetchDetailedStats() {
@@ -410,5 +538,8 @@ export async function fetchStats() {
     unreadContacts: number;
     comments: number;
     reviews: number;
+    hotels: number;
+    tours: number;
+    bookings: number;
   }>(res);
 }
