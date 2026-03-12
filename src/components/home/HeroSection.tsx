@@ -1,14 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
+import { API_URL } from "@/lib/api-config";
 
 export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [stats, setStats] = useState({ provinces: 63, destinations: 233, regions: 3 });
   const router = useRouter();
+
+  useEffect(() => {
+    fetch(`${API_URL}/api/stats`)
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.success && json.data) {
+          setStats({
+            provinces: json.data.provinces,
+            destinations: json.data.destinations,
+            regions: json.data.regions,
+          });
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -120,9 +137,9 @@ export default function HeroSection() {
             className="mt-16 flex items-center gap-12 justify-center"
           >
             {[
-              { value: "3", label: "Tỉnh thành" },
-              { value: "9", label: "Địa danh" },
-              { value: "3", label: "Vùng miền" },
+              { value: stats.provinces, label: "Tỉnh thành" },
+              { value: stats.destinations, label: "Địa danh" },
+              { value: stats.regions, label: "Vùng miền" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <p className="text-3xl sm:text-4xl font-extrabold text-white">{stat.value}</p>
