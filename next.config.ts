@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    optimizePackageImports: ["motion/react", "recharts", "react-leaflet"],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

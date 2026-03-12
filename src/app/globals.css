@@ -60,3 +60,32 @@
     }
   }
 }
+
+/* Performance-optimized animations (replaces motion/react on homepage) */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out both;
+  }
+  .animate-fade-slide-up {
+    animation: fade-slide-up 0.6s ease-out both;
+  }
+  .duration-600 {
+    transition-duration: 600ms;
+  }
+}

@@ -1,11 +1,17 @@
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 import HeroSection from "@/components/home/HeroSection";
 import StatsSection from "@/components/home/StatsSection";
 import ProvinceGrid from "@/components/home/ProvinceGrid";
 import FeaturedDestinations from "@/components/home/FeaturedDestinations";
-import SmartRecommendations from "@/components/recommendations/SmartRecommendations";
 import LatestPosts from "@/components/home/LatestPosts";
 import JsonLd from "@/components/shared/JsonLd";
 import { getSiteConfig } from "@/lib/data";
+
+const SmartRecommendations = dynamic(
+  () => import("@/components/recommendations/SmartRecommendations"),
+  { ssr: false }
+);
 
 export default async function HomePage() {
   const site = await getSiteConfig();
@@ -25,7 +31,9 @@ export default async function HomePage() {
       <StatsSection />
       <ProvinceGrid />
       <FeaturedDestinations />
-      <SmartRecommendations />
+      <Suspense>
+        <SmartRecommendations />
+      </Suspense>
       <LatestPosts />
     </>
   );

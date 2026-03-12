@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "motion/react";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import { API_URL } from "@/lib/api-config";
@@ -52,22 +51,16 @@ export default function HeroSection() {
 
       <Container className="relative z-10 py-24 sm:py-32 lg:py-40">
         <div className="max-w-2xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="animate-fade-slide-up">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white/90 text-sm font-medium backdrop-blur-sm border border-white/10">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               Khám phá Việt Nam
             </span>
-          </motion.div>
+          </div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-8 text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white leading-[1.1] tracking-tight"
+          <h1
+            className="animate-fade-slide-up mt-8 text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white leading-[1.1] tracking-tight"
+            style={{ animationDelay: "100ms" }}
           >
             Vẻ đẹp bất tận
             <br />
@@ -75,25 +68,21 @@ export default function HeroSection() {
             <span className="bg-gradient-to-r from-accent-300 to-accent-500 bg-clip-text text-transparent">
               Việt Nam
             </span>
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-6 text-base sm:text-lg text-white/70 leading-relaxed max-w-lg mx-auto"
+          <p
+            className="animate-fade-slide-up mt-6 text-base sm:text-lg text-white/70 leading-relaxed max-w-lg mx-auto"
+            style={{ animationDelay: "200ms" }}
           >
             Từ những ruộng bậc thang miền Bắc đến những bãi biển xanh ngắt miền Trung
             và nhịp sống sôi động của Sài Gòn – Việt Nam luôn có điều kỳ diệu cho bạn.
-          </motion.p>
+          </p>
 
           {/* Search form */}
-          <motion.form
+          <form
             onSubmit={handleSearch}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-8 flex gap-2 max-w-md mx-auto"
+            className="animate-fade-slide-up mt-8 flex gap-2 max-w-md mx-auto"
+            style={{ animationDelay: "300ms" }}
           >
             <input
               type="text"
@@ -108,13 +97,11 @@ export default function HeroSection() {
             >
               Tìm kiếm
             </button>
-          </motion.form>
+          </form>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-6 flex flex-col sm:flex-row gap-4 justify-center"
+          <div
+            className="animate-fade-slide-up mt-6 flex flex-col sm:flex-row gap-4 justify-center"
+            style={{ animationDelay: "400ms" }}
           >
             <Button href="#tinh-thanh" variant="secondary" size="lg">
               Khám phá ngay
@@ -127,14 +114,12 @@ export default function HeroSection() {
             >
               Tìm hiểu thêm
             </Button>
-          </motion.div>
+          </div>
 
           {/* Quick stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-16 flex items-center gap-12 justify-center"
+          <div
+            className="animate-fade-slide-up mt-16 flex items-center gap-12 justify-center"
+            style={{ animationDelay: "500ms" }}
           >
             {[
               { value: stats.provinces, label: "Tỉnh thành" },
@@ -146,7 +131,7 @@ export default function HeroSection() {
                 <p className="mt-1 text-xs sm:text-sm text-white/50 font-medium">{stat.label}</p>
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </Container>
     </section>
