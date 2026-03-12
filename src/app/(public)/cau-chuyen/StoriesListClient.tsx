@@ -5,8 +5,7 @@ import Link from "next/link";
 import type { Story, PaginationInfo } from "@/types";
 import StoryCard from "@/components/story/StoryCard";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 export default function StoriesListClient() {
   const [stories, setStories] = useState<Story[]>([]);

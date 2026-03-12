@@ -3,8 +3,7 @@
 import { useState } from "react";
 import type { ItineraryDay, Destination } from "@/types";
 import CostInput from "./CostInput";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 interface ItineraryDayEditorProps {
   day: ItineraryDay;

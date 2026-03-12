@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 const REVALIDATE_SECRET = process.env.NEXT_PUBLIC_REVALIDATE_SECRET || "dulichvietnam-revalidate-2026";
 
 async function revalidateFrontend() {

@@ -7,8 +7,7 @@ import SearchFilters from "./SearchFilters";
 import DestinationCardClient from "./DestinationCardClient";
 import DestinationCardSkeleton from "@/components/skeletons/DestinationCardSkeleton";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 export default function SearchPageContent() {
   const router = useRouter();

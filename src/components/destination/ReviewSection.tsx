@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import StarRating from "@/components/shared/StarRating";
 import StarRatingInput from "@/components/shared/StarRatingInput";
 import type { Review } from "@/types";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 interface ReviewSectionProps {
   destinationSlug: string;

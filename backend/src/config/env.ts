@@ -9,7 +9,10 @@ export const env = {
   mongodbUri: process.env.MONGODB_URI || "mongodb://localhost:27017/dulichvietnam",
   jwtSecret: process.env.JWT_SECRET || "fallback-secret-change-me",
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || "7d",
-  corsOrigin: process.env.CORS_ORIGIN || "http://localhost:3000",
+  corsOrigin:
+    process.env.CORS_ORIGIN ||
+    "http://localhost:3000,http://localhost:3001",
+  frontendUrl: process.env.FRONTEND_URL || "http://localhost:3000",
   nodeEnv: process.env.NODE_ENV || "development",
   uploadsDir: path.join(process.cwd(), "uploads"),
   cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME || "",
@@ -21,5 +24,7 @@ export const env = {
   vnpayTmnCode: process.env.VNPAY_TMN_CODE || "CGXZLS0Z",
   vnpayHashSecret: process.env.VNPAY_HASH_SECRET || "XNBCJFAKAZQSGTARRLGCHVZWCIOIGSHN",
   vnpayUrl: process.env.VNPAY_URL || "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html",
-  vnpayReturnUrl: process.env.VNPAY_RETURN_URL || "http://localhost:3000/thanh-toan/ket-qua",
+  vnpayReturnUrl:
+    process.env.VNPAY_RETURN_URL ||
+    `${process.env.FRONTEND_URL || "http://localhost:3000"}/thanh-toan/ket-qua`,
 };

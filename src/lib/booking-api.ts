@@ -1,6 +1,5 @@
 import type { Booking, PaginatedResponse } from "@/types";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 function getToken(): string {
   return localStorage.getItem("dulichvietnam_token") || "";

@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { API_URL } from "@/lib/api-config";
 
 interface FavoritesContextType {
   favorites: string[];
@@ -18,7 +19,6 @@ const FavoritesContext = createContext<FavoritesContextType>({
 });
 
 const STORAGE_KEY = "dulichvietnam_favorites";
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, token } = useAuth();

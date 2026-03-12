@@ -6,8 +6,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import SearchBar from "@/components/shared/SearchBar";
 import { useAuth } from "@/components/auth/AuthProvider";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 interface MobileNavProps {
   links: { href: string; label: string }[];

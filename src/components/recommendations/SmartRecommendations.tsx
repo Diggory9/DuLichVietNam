@@ -8,8 +8,7 @@ import Container from "@/components/ui/Container";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import type { Destination } from "@/types";
 import { CATEGORY_LABELS } from "@/types";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 export default function SmartRecommendations() {
   const { getTopCategories, getTopProvinces, getViewedSlugs } = useViewHistory();

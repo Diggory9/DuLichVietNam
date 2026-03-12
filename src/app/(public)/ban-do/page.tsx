@@ -3,8 +3,7 @@ import Container from "@/components/ui/Container";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import MapViewLazy from "@/components/shared/MapViewLazy";
 import type { MapDestination } from "@/components/shared/MapView";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 export const metadata: Metadata = {
   title: "Bản đồ du lịch Việt Nam",

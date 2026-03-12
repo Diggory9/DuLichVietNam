@@ -8,8 +8,7 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import ItineraryDetailClient from "./ItineraryDetailClient";
 import type { Itinerary, Destination } from "@/types";
 import Skeleton from "@/components/ui/Skeleton";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 export default function ItineraryPage() {
   const params = useParams();

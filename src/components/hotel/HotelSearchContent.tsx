@@ -7,8 +7,7 @@ import HotelSearchFilters from "./HotelSearchFilters";
 import HotelCard from "./HotelCard";
 import HotelCardSkeleton from "./HotelCardSkeleton";
 import Pagination from "@/components/search/Pagination";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 export default function HotelSearchContent() {
   const router = useRouter();

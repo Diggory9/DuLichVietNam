@@ -5,8 +5,7 @@ import type { Story, PaginationInfo } from "@/types";
 import { useToast } from "@/components/ui/ToastProvider";
 import { useAuth } from "@/components/admin/AuthProvider";
 import Link from "next/link";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 const statusLabels: Record<string, string> = {
   pending: "Chờ duyệt",

@@ -5,8 +5,7 @@ import Container from "@/components/ui/Container";
 import DestinationCardClient from "@/components/search/DestinationCardClient";
 import { useFavorites } from "@/components/favorites/FavoritesProvider";
 import type { Destination } from "@/types";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 export default function FavoritesPage() {
   const { favorites } = useFavorites();

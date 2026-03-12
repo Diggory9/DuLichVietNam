@@ -7,8 +7,7 @@ import ItineraryMapPreview from "@/components/itinerary/ItineraryMapPreview";
 import CostSummary from "@/components/itinerary/CostSummary";
 import { useAuth } from "@/components/auth/AuthProvider";
 import type { Itinerary, Destination } from "@/types";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 const DAY_COLORS = ["text-blue-600", "text-orange-600", "text-green-600", "text-purple-600", "text-pink-600", "text-teal-600", "text-red-600"];
 const DAY_BG = ["bg-blue-50", "bg-orange-50", "bg-green-50", "bg-purple-50", "bg-pink-50", "bg-teal-50", "bg-red-50"];
 

@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import type { TourSearchParams, Province } from "@/types";
 import { TOUR_CATEGORY_LABELS } from "@/types";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 const DIFFICULTY_OPTIONS = [
   { value: "", label: "Tất cả" },

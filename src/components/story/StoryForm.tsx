@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { Story, Destination } from "@/types";
 import { useToast } from "@/components/ui/ToastProvider";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 interface StoryFormProps {
   initialData?: Story;

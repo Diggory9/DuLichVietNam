@@ -5,8 +5,7 @@ import { useEffect, useState } from "react";
 import Container from "@/components/ui/Container";
 import ComparisonTable from "@/components/compare/ComparisonTable";
 import type { Destination } from "@/types";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 export default function ComparePageContent() {
   const searchParams = useSearchParams();

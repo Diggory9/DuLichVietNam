@@ -34,8 +34,9 @@ const AuthContext = createContext<AuthContextType>({
   updateProfile: () => {},
 });
 
+import { API_URL } from "@/lib/api-config";
+
 const TOKEN_KEY = "dulichvietnam_token";
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);

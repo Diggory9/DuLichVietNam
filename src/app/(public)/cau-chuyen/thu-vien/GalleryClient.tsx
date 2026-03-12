@@ -4,8 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import type { GalleryPhoto, PaginationInfo } from "@/types";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 export default function GalleryClient() {
   const [photos, setPhotos] = useState<GalleryPhoto[]>([]);

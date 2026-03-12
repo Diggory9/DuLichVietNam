@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react";
 import type { Comment } from "@/types";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 interface CommentSectionProps {
   postSlug: string;

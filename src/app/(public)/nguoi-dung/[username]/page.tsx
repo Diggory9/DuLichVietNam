@@ -6,8 +6,7 @@ import Link from "next/link";
 import Container from "@/components/ui/Container";
 import BadgeDisplay from "@/components/badges/BadgeDisplay";
 import type { Story, Itinerary } from "@/types";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 interface PublicProfileData {
   user: {

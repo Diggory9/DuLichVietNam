@@ -1,6 +1,5 @@
 import type { Province, Destination, SiteConfig, SearchParams, SearchResult, QuickSearchResult, Post, PaginatedResponse, Comment, Review, Itinerary, Story, Hotel, Tour, HotelSearchParams, TourSearchParams } from "@/types";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 const REVALIDATE = 60;
 
 // JSON fallback for build time when API is not running

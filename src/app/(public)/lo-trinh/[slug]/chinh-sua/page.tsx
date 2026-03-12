@@ -9,8 +9,7 @@ import ItineraryMapPreview from "@/components/itinerary/ItineraryMapPreview";
 import CostSummary from "@/components/itinerary/CostSummary";
 import { useAuth } from "@/components/auth/AuthProvider";
 import type { ItineraryDay, Itinerary, Destination } from "@/types";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 export default function EditItineraryPage() {
   const { isAuthenticated, token } = useAuth();

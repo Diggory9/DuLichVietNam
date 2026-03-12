@@ -29,6 +29,7 @@ import tourRoutes from "./routes/tour.routes";
 import bookingRoutes from "./routes/booking.routes";
 import paymentRoutes from "./routes/payment.routes";
 import roomInventoryRoutes from "./routes/room-inventory.routes";
+import seedRoutes from "./routes/seed.routes";
 
 const app = express();
 
@@ -65,6 +66,7 @@ app.use("/api/tours", tourRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/room-inventory", roomInventoryRoutes);
+app.use("/api/admin/seed", seedRoutes);
 
 // Health check
 app.get("/api/health", (_req, res) => {

@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { QuickSearchResult } from "@/types";
 import { CATEGORY_LABELS, type Category } from "@/types";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+import { API_URL } from "@/lib/api-config";
 
 export default function SearchBar({ className }: { className?: string }) {
   const [query, setQuery] = useState("");
