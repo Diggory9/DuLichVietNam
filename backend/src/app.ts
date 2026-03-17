@@ -3,9 +3,16 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
+import passport from "passport";
 import { corsOptions } from "./config/cors";
 import { errorHandler } from "./middleware/errorHandler";
+import { globalLimiter } from "./middleware/rateLimiter";
 import { env } from "./config/env";
+import { initPassport } from "./config/passport";
+import { initSentry, Sentry } from "./config/sentry";
+
+// Sentry — phải init trước tất cả
+initSentry();
 
 // Import routes
 import provinceRoutes from "./routes/province.routes";
@@ -39,6 +46,11 @@ app.use(cors(corsOptions));
 app.use(morgan(env.nodeEnv === "development" ? "dev" : "combined"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use("/api", globalLimiter);
+
+// Passport
+initPassport();
+app.use(passport.initialize());
 
 // Static files - serve uploaded images
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
@@ -72,6 +84,11 @@ app.use("/api/admin/seed", seedRoutes);
 app.get("/api/health", (_req, res) => {
   res.json({ success: true, message: "API is running" });
 });
+
+// Sentry error handler (phải đặt trước errorHandler)
+if (process.env.SENTRY_DSN) {
+  Sentry.setupExpressErrorHandler(app);
+}
 
 // Error handler
 app.use(errorHandler);

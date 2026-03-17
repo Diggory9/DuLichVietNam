@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   experimental: {
     optimizePackageImports: ["motion/react", "recharts", "react-leaflet"],
   },
@@ -19,4 +21,12 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// Chỉ bật Sentry khi có DSN
+const sentryEnabled = !!process.env.NEXT_PUBLIC_SENTRY_DSN;
+
+export default sentryEnabled
+  ? withSentryConfig(nextConfig, {
+      silent: true,
+      disableLogger: true,
+    })
+  : nextConfig;

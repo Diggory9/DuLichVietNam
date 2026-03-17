@@ -27,4 +27,9 @@ export const env = {
   vnpayReturnUrl:
     process.env.VNPAY_RETURN_URL ||
     `${process.env.FRONTEND_URL || "http://localhost:3000"}/thanh-toan/ket-qua`,
+  googleClientId: process.env.GOOGLE_CLIENT_ID || "",
+  googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+  googleCallbackUrl:
+    process.env.GOOGLE_CALLBACK_URL ||
+    `${process.env.BACKEND_URL || "http://localhost:5000"}/api/auth/google/callback`,
 };

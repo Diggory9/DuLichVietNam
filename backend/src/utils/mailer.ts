@@ -43,3 +43,36 @@ export async function sendContactNotification(data: ContactMailData) {
 
   console.log("[Mail] Đã gửi thông báo liên hệ tới", env.contactEmail);
 }
+
+export async function sendPasswordResetEmail(
+  email: string,
+  resetUrl: string
+) {
+  if (!transporter) {
+    console.log("[Mail] SMTP chưa cấu hình, bỏ qua gửi email reset.");
+    return;
+  }
+
+  await transporter.sendMail({
+    from: `"Du Lịch Việt Nam" <${env.smtpUser}>`,
+    to: email,
+    subject: "Đặt lại mật khẩu - Du Lịch Việt Nam",
+    html: `
+      <div style="max-width:500px;margin:0 auto;font-family:Arial,sans-serif">
+        <h2 style="color:#2563eb">Đặt lại mật khẩu</h2>
+        <p>Bạn (hoặc ai đó) đã yêu cầu đặt lại mật khẩu cho tài khoản của bạn.</p>
+        <p>Nhấn vào nút bên dưới để đặt mật khẩu mới. Link có hiệu lực trong <strong>1 giờ</strong>.</p>
+        <div style="text-align:center;margin:24px 0">
+          <a href="${resetUrl}" style="display:inline-block;padding:12px 32px;background:#2563eb;color:#fff;text-decoration:none;border-radius:8px;font-weight:bold">
+            Đặt lại mật khẩu
+          </a>
+        </div>
+        <p style="color:#6b7280;font-size:14px">Nếu bạn không yêu cầu, hãy bỏ qua email này. Mật khẩu của bạn sẽ không thay đổi.</p>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0"/>
+        <p style="color:#9ca3af;font-size:12px">Du Lịch Việt Nam — Khám phá vẻ đẹp Việt Nam</p>
+      </div>
+    `,
+  });
+
+  console.log("[Mail] Đã gửi email reset mật khẩu tới", email);
+}

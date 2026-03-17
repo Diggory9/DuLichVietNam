@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { useSocket } from "@/hooks/useSocket";
 import type { Notification } from "@/types";
 import { API_URL } from "@/lib/api-config";
 
@@ -36,11 +37,22 @@ export default function NotificationBell() {
     } catch {}
   }, [token]);
 
-  // Poll unread count every 30s
+  // Real-time notification via WebSocket
+  const handleSocketNotification = useCallback(
+    () => {
+      setUnreadCount((prev) => prev + 1);
+      if (open) fetchNotifications();
+    },
+    [open, fetchNotifications]
+  );
+
+  useSocket(handleSocketNotification);
+
+  // Fallback: poll unread count every 60s (longer interval since we have WebSocket)
   useEffect(() => {
     if (!isAuthenticated) return;
     fetchUnreadCount();
-    const interval = setInterval(fetchUnreadCount, 30000);
+    const interval = setInterval(fetchUnreadCount, 60000);
     return () => clearInterval(interval);
   }, [isAuthenticated, fetchUnreadCount]);
 
@@ -61,7 +73,6 @@ export default function NotificationBell() {
   }
 
   async function handleClickNotification(n: Notification) {
-    // Mark as read
     if (!n.read) {
       try {
         await fetch(`${API_URL}/api/notifications/${n.id}/read`, {

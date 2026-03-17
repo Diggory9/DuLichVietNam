@@ -6,9 +6,8 @@ import { AppError } from "./errorHandler";
 
 declare global {
   namespace Express {
-    interface Request {
-      user?: IUser;
-    }
+    // eslint-disable-next-line @typescript-eslint/no-empty-interface
+    interface User extends IUser {}
   }
 }
 

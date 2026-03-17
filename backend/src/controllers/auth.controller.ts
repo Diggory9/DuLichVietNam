@@ -1,8 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
+import passport from "passport";
 import { User } from "../models/User";
 import { env } from "../config/env";
 import { AppError } from "../middleware/errorHandler";
+import { sendPasswordResetEmail } from "../utils/mailer";
 
 function signToken(id: string): string {
   return jwt.sign({ id }, env.jwtSecret, {
@@ -137,4 +140,145 @@ export async function getMe(req: Request, res: Response, next: NextFunction) {
   } catch (err) {
     next(err);
   }
+}
+
+export async function forgotPassword(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      throw new AppError("Vui lòng nhập email", 400);
+    }
+
+    const user = await User.findOne({ email });
+
+    // Always return success to prevent email enumeration
+    if (!user) {
+      res.json({
+        success: true,
+        message:
+          "Nếu email tồn tại trong hệ thống, bạn sẽ nhận được link đặt lại mật khẩu.",
+      });
+      return;
+    }
+
+    // Generate reset token
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    user.resetPasswordToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+    user.resetPasswordExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    await user.save({ validateModifiedOnly: true });
+
+    // Send email
+    const resetUrl = `${env.frontendUrl}/dat-lai-mat-khau/${resetToken}`;
+    try {
+      await sendPasswordResetEmail(email, resetUrl);
+    } catch {
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpires = undefined;
+      await user.save({ validateModifiedOnly: true });
+      throw new AppError("Không thể gửi email. Vui lòng thử lại sau.", 500);
+    }
+
+    res.json({
+      success: true,
+      message:
+        "Nếu email tồn tại trong hệ thống, bạn sẽ nhận được link đặt lại mật khẩu.",
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function resetPassword(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const token = req.params.token as string;
+    const { password } = req.body;
+
+    if (!password) {
+      throw new AppError("Vui lòng nhập mật khẩu mới", 400);
+    }
+
+    if (password.length < 6) {
+      throw new AppError("Mật khẩu phải có ít nhất 6 ký tự", 400);
+    }
+
+    // Hash token to compare with stored hash
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
+
+    const user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpires: { $gt: new Date() },
+    }).select("+password");
+
+    if (!user) {
+      throw new AppError(
+        "Token không hợp lệ hoặc đã hết hạn. Vui lòng yêu cầu đặt lại mật khẩu mới.",
+        400
+      );
+    }
+
+    user.password = password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    const jwtToken = signToken(user._id.toString());
+
+    res.json({
+      success: true,
+      message: "Đặt lại mật khẩu thành công!",
+      data: {
+        token: jwtToken,
+        user: {
+          id: user._id.toString(),
+          username: user.username,
+          email: user.email,
+          role: user.role,
+          displayName: user.displayName,
+        },
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export const googleAuth = passport.authenticate("google", {
+  scope: ["profile", "email"],
+  session: false,
+});
+
+export function googleCallback(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  passport.authenticate(
+    "google",
+    { session: false },
+    (err: Error | null, user: any) => {
+      if (err || !user) {
+        return res.redirect(
+          `${env.frontendUrl}/dang-nhap?error=google_auth_failed`
+        );
+      }
+
+      const token = signToken(user._id.toString());
+      res.redirect(`${env.frontendUrl}/auth/callback?token=${token}`);
+    }
+  )(req, res, next);
 }

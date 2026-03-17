@@ -12,6 +12,10 @@ export interface IUser extends Document {
   isPublicProfile: boolean;
   badges: string[];
   favorites: string[];
+  resetPasswordToken?: string;
+  resetPasswordExpires?: Date;
+  googleId?: string;
+  authProvider: "local" | "google";
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
@@ -29,6 +33,10 @@ const userSchema = new Schema<IUser>(
     isPublicProfile: { type: Boolean, default: false },
     badges: { type: [String], default: [] },
     favorites: { type: [String], default: [] },
+    resetPasswordToken: { type: String },
+    resetPasswordExpires: { type: Date },
+    googleId: { type: String, sparse: true },
+    authProvider: { type: String, default: "local", enum: ["local", "google"] },
   },
   {
     timestamps: true,
