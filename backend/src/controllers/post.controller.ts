@@ -3,6 +3,7 @@ import { Post } from "../models/Post";
 import { User } from "../models/User";
 import { Notification } from "../models/Notification";
 import { AppError } from "../middleware/errorHandler";
+import { emitToUser } from "../lib/socket";
 
 export async function getAllPosts(
   req: Request,
@@ -187,6 +188,16 @@ export async function createPost(
         }));
         if (notifications.length > 0) {
           await Notification.insertMany(notifications);
+          // Emit real-time notification to each user
+          const notifData = {
+            type: "new_post",
+            title: "Bài viết mới",
+            message: post.title,
+            link: `/bai-viet/${post.slug}`,
+          };
+          users.forEach((u) =>
+            emitToUser(u._id.toString(), "notification", notifData)
+          );
         }
       } catch {
         // Don't fail post creation if notification fails
@@ -235,6 +246,15 @@ export async function updatePost(
         }));
         if (notifications.length > 0) {
           await Notification.insertMany(notifications);
+          const notifData = {
+            type: "new_post",
+            title: "Bài viết mới",
+            message: post.title,
+            link: `/bai-viet/${post.slug}`,
+          };
+          users.forEach((u) =>
+            emitToUser(u._id.toString(), "notification", notifData)
+          );
         }
       } catch {
         // Don't fail post update if notification fails
